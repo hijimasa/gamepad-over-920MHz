@@ -500,6 +500,37 @@ core1 は常時回っているので 3 秒止まれば確実に死んでいる�
 
 **根本原因（`USBHost.task()` が固まる理由）は未解明のまま。**
 
+### ネイティブ USB ホストへの移行を検討し、断念した（2026-09-19）
+
+PIO-USB をやめて RP2040 の**ネイティブ USB コントローラ**をホストにすれば、
+core1 も PIO も USB に関与しなくなり、この停止は構造的に消える。
+XIAO の USB-C に OTG 変換でパッドを繋ぎ、給電は J1 から入れる構成。
+
+- arduino-pico は `usbstack=tinyusb_host`（Adafruit TinyUSB Host (native)）に対応
+- 5V ピンから USB-C の VBUS へ逆流することは実機で確認済み（J1 給電で動作した）
+
+最小構成（[firmware/hosttest/](firmware/hosttest/)）で検証した結果:
+
+| 段階 | 結果 |
+|---|---|
+| `USBHost.begin(0)` | ✅ 通る |
+| USB 機器の検出（`tuh_mount_cb`） | ✅ 呼ばれる |
+| HID として列挙（`tuh_hid_mount_cb`） | ✅ 呼ばれる。VID:PID も取得できる |
+| `tuh_hid_receive_report()` | ✅ 成功を返す |
+| **レポートの受信** | ❌ **一度も届かない** |
+
+`rearm=0 rep=0` が延々と続く（`rearm=0` は「転送が保留中」を意味し正常）。
+つまり**転送は armed のまま完了しない**。ゲームパッドでもマウスでも同じ。
+同じ TinyUSB の HID クラスドライバで PIO-USB 版では動くので、
+差分はネイティブ HCD の割り込み IN 転送にある。
+
+`hcd_rp2040.c` を読んだ限り実装は構造的に正しく見え（割り込みエンドポイントは
+15 個のプールから確保、`bInterval` 設定済み、SOF も有効化）、
+設定漏れのような分かりやすい原因は見当たらなかった。
+
+**これ以上はライブラリ内部のデバッグになるため打ち切った。**
+検証用スケッチは最小再現コードとして残してある。
+
 ### NeoPixel との干渉を疑って調べたこと
 
 `Adafruit_NeoPixel::show()` は RP2040 で PIO を使う経路でも、実行中ずっと
