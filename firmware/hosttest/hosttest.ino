@@ -21,6 +21,7 @@
 //   水色の速い点滅 … レポートを受信した（完全に動作）。一度受信したら以後ずっと水色
 //
 // ビルド: ./build.sh hosttest upload
+#define IM_ROLE_TX
 #include "Adafruit_TinyUSB.h"
 
 #ifndef USE_TINYUSB_HOST
@@ -28,6 +29,17 @@
 #endif
 
 #include "status_led.h"
+#include "im920sl_config.h"
+
+// ---- 無線経由のログ ----
+// ホストモードでは USB の CDC が使えないので、IM920sL でテキストを飛ばし、
+// 受信機の bridge モードで読む（tools/hostlog.py）。追加のハードは要らない。
+static void radioLog(const char *msg) {
+  uint8_t buf[32];
+  size_t n = 0;
+  while (msg[n] && n < sizeof(buf)) { buf[n] = (uint8_t)msg[n]; n++; }
+  if (n) im920SendEx(buf, n);
+}
 
 Adafruit_USBH_Host USBHost;
 static WgStatusLed g_led;
@@ -48,17 +60,30 @@ void setup() {
   // PIO-USB を使わないので、NeoPixel と PIO を取り合う心配がない
   g_led.begin(40, true);
   g_led.set(WG_LED_BOOT);
+  im920Begin();
+  im920HardReset();
+  im920SetupBaud(nullptr);
+  im920AutoConfig(nullptr);         // DCIO（HEX 入出力）もここで入る
+  im920SetChannelVolatile(31);      // 受信機は無通信 12 秒で ch31 に戻ってくる
+  radioLog("BOOT hosttest");
+
   USBHost.begin(0);            // ネイティブ USB コントローラをホストとして使う
   g_begun = true;              // ここに来なければ begin() で固まっている（白のまま）
+  radioLog("USBHost.begin done");
 }
 
 void loop() {
   USBHost.task();              // core1 は使わない。ここで回すだけ
   (void)g_lastRepMs;
   // まだ 1 度もレポートが来ていなければ 100ms ごとに要求し直す
-  if (g_haveDev && g_reports == 0 && millis() - g_reArm > 100) {
+  // 注意: tuh_hid_receive_report() は「すでに転送が保留中」でも false を返す。
+  // 再要求の false は異常ではないので、ここでは g_armFail を立てない
+  if (g_haveDev && g_reports == 0 && millis() - g_reArm > 1000) {
     g_reArm = millis();
-    if (!tuh_hid_receive_report(g_addr, g_inst)) g_armFail = true;
+    bool ok = tuh_hid_receive_report(g_addr, g_inst);
+    char m[32];
+    snprintf(m, sizeof(m), "rearm=%d rep=%lu", ok ? 1 : 0, (unsigned long)g_reports);
+    radioLog(m);
   }
   if (!g_begun)                     g_led.set(WG_LED_BOOT);          // 白：初期化で停止
   else if (g_armFail)               g_led.set(WG_LED_ERROR);         // 紫：要求が失敗
@@ -74,7 +99,8 @@ void loop() {
 // ---- TinyUSB ホストのコールバック ----
 // HID かどうかに関わらず、USB 機器を検出した時点で呼ばれる。
 // 「機器が見えていない」のか「見えているが HID として扱えない」のかを分ける
-void tuh_mount_cb(uint8_t addr)   { (void)addr; g_anyDev = true; }
+void tuh_mount_cb(uint8_t addr)   { g_anyDev = true; char m[24];
+  snprintf(m, sizeof(m), "mount addr=%u", addr); radioLog(m); }
 void tuh_umount_cb(uint8_t addr)  { (void)addr; g_anyDev = false; g_mounted = false; }
 
 void tuh_hid_mount_cb(uint8_t addr, uint8_t inst,
@@ -85,7 +111,14 @@ void tuh_hid_mount_cb(uint8_t addr, uint8_t inst,
   g_addr = addr; g_inst = inst; g_haveDev = true;
   // ブートプロトコルのままだとゲームパッドのレポートが出ない機器があるため明示する
   tuh_hid_set_protocol(addr, inst, HID_PROTOCOL_REPORT);
-  if (!tuh_hid_receive_report(addr, inst)) g_armFail = true;   // 最初のレポートを要求
+  bool ok = tuh_hid_receive_report(addr, inst);                // 最初のレポートを要求
+  if (!ok) g_armFail = true;
+  uint16_t vid = 0, pid = 0;
+  tuh_vid_pid_get(addr, &vid, &pid);
+  char m[32];
+  snprintf(m, sizeof(m), "HID a%u i%u %04X:%04X d%u %d",
+           addr, inst, vid, pid, (unsigned)len, ok ? 1 : 0);
+  radioLog(m);
 }
 
 void tuh_hid_umount_cb(uint8_t addr, uint8_t inst) {
@@ -99,5 +132,10 @@ void tuh_hid_report_received_cb(uint8_t addr, uint8_t inst,
   (void)report; (void)len;
   g_reports++;
   g_lastRepMs = millis();
+  if (g_reports <= 3) {
+    char m[32];
+    snprintf(m, sizeof(m), "REPORT #%lu len=%u", (unsigned long)g_reports, (unsigned)len);
+    radioLog(m);
+  }
   if (!tuh_hid_receive_report(addr, inst)) g_armFail = true;   // 次を要求しないと止まる
 }
