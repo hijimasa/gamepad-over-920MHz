@@ -16,7 +16,9 @@
 //   橙の点滅     … USB 機器は検出したが HID として認識できていない（列挙の問題）
 //   紫の点滅     … HID は認識したがレポート要求が失敗した
 //   緑の点灯     … HID を列挙できた（レポートはまだ来ていない）
-//   水色の速い点滅 … レポートが届いている（完全に動作）
+//                   → このパッドは「変化時のみ」レポートを返すので、
+//                     ここまで来たら **スティックを動かすこと**
+//   水色の速い点滅 … レポートを受信した（完全に動作）。一度受信したら以後ずっと水色
 //
 // ビルド: ./build.sh hosttest upload
 #include "Adafruit_TinyUSB.h"
@@ -47,12 +49,14 @@ void setup() {
 
 void loop() {
   USBHost.task();              // core1 は使わない。ここで回すだけ
-  uint32_t now = millis();
+  (void)g_lastRepMs;
   if (!g_begun)                     g_led.set(WG_LED_BOOT);          // 白：初期化で停止
   else if (g_armFail)               g_led.set(WG_LED_ERROR);         // 紫：要求が失敗
   else if (!g_anyDev)               g_led.set(WG_LED_DISCONNECTED);  // 赤：機器なし
   else if (!g_mounted)              g_led.set(WG_LED_PAIRING);       // 橙：HID でない
-  else if (now - g_lastRepMs < 300) g_led.set(WG_LED_BUTTON);        // 水色：受信中
+  // 一度でもレポートが来たらラッチする。変化時のみ報告するパッドだと
+  // 「受信中だけ水色」では一瞬で戻ってしまい、見逃す
+  else if (g_reports > 0)           g_led.set(WG_LED_BUTTON);        // 水色：受信済み
   else                              g_led.set(WG_LED_CONNECTED);     // 緑：列挙済み
   g_led.task();
 }
