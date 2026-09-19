@@ -7,3 +7,8 @@ build/
 # 最初から追跡しない。入手先は README を参照。
 docs/IM920sL_manual.pdf
 docs/IM920sL_ADP_manual.pdf
+
+# KiCad の作業ファイル
+*.kicad_prl
+*.kicad_pro
+*-backups/

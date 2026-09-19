@@ -14,7 +14,7 @@ OUT = os.path.join(os.path.dirname(__file__), "footprints.pretty")
 # ★ 要実測 ★ XIAO RP2040 の 2 列のピン間隔（中心間・mm）
 # 資料により 15.24mm（0.6in）と 17.78mm（0.7in）の両方の記述があり確定できていない。
 # 実物をノギスで測って正しい値に直すこと。1:1 印刷での確認手段は hardware/README.md 参照。
-XIAO_ROW_SPACING = 17.78
+XIAO_ROW_SPACING = 15.24   # 実測で確定（0.6 inch）
 XIAO_PITCH   = 2.54
 XIAO_PINS    = 7          # 片側 7 ピン
 XIAO_W, XIAO_H = 17.8, 21.0   # 外形（参考値）
