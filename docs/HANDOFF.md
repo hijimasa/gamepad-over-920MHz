@@ -1,7 +1,11 @@
 # USBゲームパッド無線化（IM920sL × XIAO RP2040）引き継ぎ資料
 
 Claude Code でファームウェア実装を引き継ぐための資料。ハードウェアの仕様は確定済みで、ソフトウェアはまだ書かれていない。
-最終更新: 2026-09 / 回路図 Rev.2
+最終更新: 2026-09 / 回路図 Rev.3
+
+> **この資料は実装を始める前に書かれたものです。** 実装後に判明した事実（PIO-USB の
+> 240MHz 要件、D+/D− の実配線、SW1 と STATUS LED の廃止など）は反映済みですが、
+> 現在の仕様と測定値は [README](../README.md) が正です。
 
 ---
 
@@ -20,14 +24,14 @@ Claude Code でファームウェア実装を引き継ぐための資料。ハ�
 
 ## 2. ハードウェア（確定）
 
-添付ファイル: `gamepad_wireless_schematic.png` / `.pdf`（Rev.2）、`gamepad_wireless_BOM.xlsx`
+添付ファイル: `schematic/gamepad_wireless_schematic.svg`（Rev.3）、`gamepad_wireless_BOM.xlsx`、`netlist.md`
 
 ### 2.1 ピン割り当て（送信機・受信機で共通。USB-A まわりは送信機のみ）
 
 | XIAO ピン | GPIO | 接続先 | 備考 |
 |---|---|---|---|
-| D0 | GPIO26 | USB-A **D−**（R1 22Ω 経由） | 送信機のみ。**配線ミスで入れ替わった状態が実配線** |
-| D1 | GPIO27 | USB-A **D+**（R2 22Ω 経由） | 送信機のみ |
+| D0 | GPIO26 | USB-A **D+**（R2 22Ω 経由） | 送信機のみ。実機で機器のプルアップ位置から確認済み |
+| D1 | GPIO27 | USB-A **D−**（R1 22Ω 経由） | 送信機のみ |
 | D2 | GPIO28 | IM920sL BUSY（ADP J1-1 / 本体 pin1） | 入力。**L の間だけコマンド受付** |
 | D3 | GPIO29 | IM920sL RESET（ADP J1-10 / pin19） | L でリセット。モジュール内部に 10kΩ プルアップ。出力は「LOW を出す／INPUT で解放」の2状態で扱う |
 | D6/TX | GPIO0 | IM920sL RxD（ADP J2-3 / pin6） | Serial1 TX |
@@ -40,12 +44,12 @@ Claude Code でファームウェア実装を引き継ぐための資料。ハ�
 
 未使用ピンは D4, D5, D9, D10。IM920sL の IO8〜IO10 はオープンのままにする（電源投入時にオープンならデータモードで起動する）。
 
-### 2.2 PIO-USB の設定（配線の入れ替わりへの対応）
+### 2.2 PIO-USB の設定
 
 ```cpp
 pio_usb_configuration_t pio_cfg = PIO_USB_DEFAULT_CONFIG;
-pio_cfg.pin_dp = 27;                    // 実配線の D+
-pio_cfg.pinout = PIO_USB_PINOUT_DMDP;   // D− = D+ − 1 = GPIO26
+pio_cfg.pin_dp = 26;                    // 実配線の D+
+pio_cfg.pinout = PIO_USB_PINOUT_DPDM;   // D- = D+ + 1 = GPIO27（既定値）
 USBHost.configure_pio_usb(1, &pio_cfg);
 ```
 
@@ -114,7 +118,7 @@ wireless_gamepad/
 └── tools/                # 必要なら PC 側の確認スクリプト
 ```
 
-- **ビルド環境:** Arduino-Pico（earlephilhower コア）、ボードは Seeed XIAO RP2040、USB Stack は **Adafruit TinyUSB**。送信機は CPU を 120MHz に設定する。
+- **ビルド環境:** Arduino-Pico（earlephilhower コア）、ボードは Seeed XIAO RP2040、USB Stack は **Adafruit TinyUSB**。送信機は CPU を 240MHz に設定する。
 - **PlatformIO を使う場合:** `platform = https://github.com/maxgerhardt/platform-raspberrypi.git`、`board_build.core = earlephilhower`、`build_flags = -DUSE_TINYUSB`（詳細は要確認）。
 - **土台にするサンプル:** Adafruit TinyUSB Arduino の DualRole/HID 系サンプル（PIO-USB ホスト＋デバイス）と、HID ゲームパッドのサンプル。
 
@@ -146,7 +150,7 @@ wireless_gamepad/
   - パッドが外れたら flags.bit0 = 0 にし、中立状態を送る。
 - **USB-C（ネイティブ）:** CDC シリアルとして §5.4 のコンソールを載せる。
 
-### 5.4 設定・ペアリングの操作（SW1 は任意部品）
+### 5.4 設定・ペアリングの操作（Rev.3 で SW1 は廃止し BOOTSEL のみ）
 
 どちらの方法でも使えるようにする。
 
@@ -178,7 +182,7 @@ wireless_gamepad/
 1. [ ] IM920sL が起動メッセージを出し、`RDNN` などに応答するか（BUSY の極性も確認）
 2. [ ] `STRT 1` の後の `STCH 31` が OK になるか（ダメなら ch01〜29 にし、送信頻度を下げる設計に変更）
 3. [ ] ペアリング（STGN → RESET 端子で再起動）が成功し、`RDGN` が親機と子機で一致するか
-4. [ ] PIO-USB（`DMDP` 指定）で元パッドが列挙されるか。dump でレポート形式を確認する
+4. [ ] PIO-USB（`DPDM` 指定）で元パッドが列挙されるか。dump でレポート形式を確認する
 5. [ ] 送信頻度ごとの NG 率と遅延（20Hz / 30Hz / 50Hz）
 6. [ ] 受信機が `/dev/input/js0` として認識され、`gamepad_related` がそのまま動くか
 7. [ ] フェイルセーフ（送信機の電源断、アンテナ遮蔽）の動作
