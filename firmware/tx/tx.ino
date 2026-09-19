@@ -32,7 +32,9 @@
 #define PIN_USB_HOST_DP_DEFAULT  27
 #define TX_CFG_ADDR   0
 #define TX_CFG_MAGIC  0x57475431UL   // 'WGT1'
-struct TxCfg { uint32_t magic; uint8_t dpPin; uint8_t rsv[3]; };
+// noNeo: NeoPixel を使わない（三色 LED だけで状態表示する）。
+// NeoPixel と PIO-USB は PIO を共有するため、core1 停止の切り分け用に切れるようにした。
+struct TxCfg { uint32_t magic; uint8_t dpPin; uint8_t noNeo; uint8_t rsv[2]; };
 // ウォッチドッグ／ソフトリセットでは RAM の内容が残るので、
 // 「異常再起動だった」ことを次の起動に伝えてボタン受付ウィンドウを飛ばす。
 #define WG_FASTBOOT_MAGIC 0x57474642UL   // 'WGFB'
@@ -393,6 +395,7 @@ static void cfgLoad() {
       (g_cfg.dpPin != 0 && g_cfg.dpPin != 26 && g_cfg.dpPin != 27)) {
     g_cfg.magic = TX_CFG_MAGIC;
     g_cfg.dpPin = 0;                       // 0 = 自動判別
+    g_cfg.noNeo = 0;
     memset(g_cfg.rsv, 0, sizeof(g_cfg.rsv));
   }
 }
@@ -627,7 +630,8 @@ static void printHelp() {
   Serial.println(F("  bridge  USB CDC <-> IM920sL 透過ブリッジ（'+' を 3 回で抜ける）"));
   Serial.println(F("  dump    HID 生レポートの表示を切り替え"));
   Serial.println(F("  map     解析した HID マップを表示"));
-  Serial.println(F("  rate N  送信間隔を N ms にして統計をリセット（既定 90ms。64ms 未満は規定違反）"));
+  Serial.println(F("  rate N  送信間隔を N ms にして統計をリセット（既定 30ms。64ms 未満は規定違反）"));
+  Serial.println(F("  neo on|off  NeoPixel の使用を切り替えて再起動（core1 停止の切り分け用）"));
   Serial.println(F("  usb     USB ホストの状態"));
   Serial.println(F("  usbpin  USB-A の D+ ピンを指定（auto|26|27、保存して再起動）"));
   Serial.println(F("  desc    取得した HID レポートディスクリプタを表示"));
@@ -803,6 +807,19 @@ static void handleLine(char *line) {
       Serial.println(F("※両機に同じキーを入れるまで通信できません"));
       Serial.println(F("※1 パケットあたり通信時間が 24 バイト分（約1.9ms）増えます"));
     }
+  }
+  else if (!strncasecmp(line, "neo", 3)) {
+    const char *arg = line + 3;
+    while (*arg == ' ') arg++;
+    if (!strcasecmp(arg, "on") || !strcasecmp(arg, "off")) {
+      g_cfg.noNeo = !strcasecmp(arg, "off") ? 1 : 0;
+      cfgSave();
+      Serial.printf("NeoPixel を %s にしました。再起動します\n", arg);
+      g_bb.rebootReason = WG_R_MANUAL; g_bb.upMs = millis();
+      Serial.flush(); delay(100); rp2040.reboot();
+    }
+    Serial.printf("NeoPixel = %s（PIO を 1 つ消費する。core1 停止の切り分け用）\n",
+                  g_cfg.noNeo ? "off" : "on");
   }
   else if (!strcasecmp(line, "reboot")) {
     g_bb.rebootReason = WG_R_MANUAL; g_bb.upMs = millis();
@@ -1109,7 +1126,8 @@ void setup() {
   while (g_hostStage < 3 && millis() - tw < 2000) delay(1);
   delay(50);
 #ifndef WG_NO_NEOPIXEL
-  g_led.enableNeoPixel();                 // ここで初めて PIO を 1 つ使う
+  if (!g_cfg.noNeo) g_led.enableNeoPixel();   // ここで初めて PIO を 1 つ使う
+  else Serial.println(F("NeoPixel は無効（三色 LED のみ。neo on で戻す）"));
   Serial.printf("USB host stage=%u, NeoPixel を有効化\n", g_hostStage);
 #else
   Serial.printf("USB host stage=%u, NeoPixel は無効（三色 LED のみ）\n", g_hostStage);

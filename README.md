@@ -500,6 +500,23 @@ core1 は常時回っているので 3 秒止まれば確実に死んでいる�
 
 **根本原因（`USBHost.task()` が固まる理由）は未解明のまま。**
 
+### NeoPixel との干渉を疑って調べたこと
+
+`Adafruit_NeoPixel::show()` は RP2040 で PIO を使う経路でも、実行中ずっと
+`noInterrupts()` で割り込みを止める（Adafruit_NeoPixel.cpp:459 と :3336）。
+ただし arduino-pico の `noInterrupts()` は `get_core_num()` でコア別に管理されており
+（wiring_private.cpp:81）、**core0 で止めても core1 の割り込みは止まらない**。
+`show()` は core0、PIO-USB は core1 なので、割り込み阻害が直接の原因という線は薄い。
+
+とはいえ NeoPixel と PIO-USB は **PIO ハードウェアを共有**しており
+（そのため `enableNeoPixel()` は `USBHost.begin()` の後に呼ぶ必要がある）、
+静的解析だけでは否定しきれない。切り分けのため `neo on|off` コマンドを用意した。
+`off` にすると NeoPixel の PIO を確保せず、三色 LED（R=17/G=16/B=25）だけで
+状態表示する。設定は EEPROM に保存され、再起動しても残る。
+
+**まだ結論は出ていない。** core1 停止は数分〜数十分に 1 回の頻度なので、
+`neo off` で長時間動かして `ブラックボックス` の再起動回数を比較する必要がある。
+
 ## 未解明：送信後に消える約 15% のパケット
 
 `TXDA` が OK を返したのに受信機に届かないパケットが約 15% ある。
