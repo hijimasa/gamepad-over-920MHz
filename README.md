@@ -42,8 +42,11 @@ CDC しか使っていないため動く見込みです）。
 | 受信機 | IM920sL ＋ IM920sL-ADP ×1 | |
 
 配線は [docs/schematic/gamepad_wireless_schematic.svg](docs/schematic/gamepad_wireless_schematic.svg)（Rev.3）、
-部品表は [docs/gamepad_wireless_BOM.xlsx](docs/gamepad_wireless_BOM.xlsx)、
-基板を起こす場合は [docs/netlist.md](docs/netlist.md)（ネットリストとレイアウト制約）を参照してください。
+部品表は [docs/gamepad_wireless_BOM.xlsx](docs/gamepad_wireless_BOM.xlsx) を参照してください。
+
+基板（送信機・受信機で共通、100×62mm 2層）の KiCad データと発注用ガーバーは
+[hardware/](hardware/) にあります。ブレッドボードやユニバーサル基板で組む場合は
+[docs/netlist.md](docs/netlist.md) にネットリストとレイアウト制約があります。
 
 > IM920sL 本体と変換アダプタの取扱説明書は、メーカー（インタープラン）の配布物なので
 > リポジトリには含めていません。<https://www.interplan.co.jp/> から入手し、
