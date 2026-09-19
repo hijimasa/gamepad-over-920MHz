@@ -32,11 +32,11 @@ Claude Code でファームウェア実装を引き継ぐための資料。ハ�
 | D3 | GPIO29 | IM920sL RESET（ADP J1-10 / pin19） | L でリセット。モジュール内部に 10kΩ プルアップ。出力は「LOW を出す／INPUT で解放」の2状態で扱う |
 | D6/TX | GPIO0 | IM920sL RxD（ADP J2-3 / pin6） | Serial1 TX |
 | D7/RX | GPIO1 | IM920sL TxD（ADP J1-4 / pin7） | Serial1 RX |
-| D8 | GPIO2 | SW1 → GND（任意部品） | INPUT_PULLUP。未実装の可能性あり（§5.4） |
+| D8 | GPIO2 | 未接続 | Rev.3 で SW1 を廃止（BOOTSEL で代用） |
 | 5V | — | USB-A VBUS | 送信機のみ。モバイルバッテリー → XIAO USB-C から供給 |
 | 3V3 | — | IM920sL VCC（ADP J1-9 / pin17） | C2 10µF＋C3 0.1µF |
 | GND | — | ADP J2-9 / USB-A GND | |
-| — | — | ADP J1-8 STATUS → 1kΩ → LED → GND | 任意 |
+| — | — | ADP J1-8 STATUS | 未接続（Rev.3 で STATUS LED を廃止。状態表示は XIAO のカラー LED） |
 
 未使用ピンは D4, D5, D9, D10。IM920sL の IO8〜IO10 はオープンのままにする（電源投入時にオープンならデータモードで起動する）。
 
@@ -50,7 +50,7 @@ USBHost.configure_pio_usb(1, &pio_cfg);
 ```
 
 - Pico-PIO-USB の `PIO_USB_PINOUT` は、`DPDM`（D− = D+ + 1、既定）と `DMDP`（D− = D+ − 1）の2種類。`pinout` が未定義というエラーが出たら、ライブラリを更新する。
-- **CPU クロックは 120MHz 必須**（12MHz の倍数である必要がある）。
+- **CPU クロックは 240MHz**（12MHz の倍数である必要がある。120MHz では列挙に失敗した）。
 
 ## 3. IM920sL 仕様メモ（取扱説明書 Rev.1.5 より）
 
