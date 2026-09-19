@@ -1,268 +1,401 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 1290" width="1020" height="1290">
-<rect width="100%" height="100%" fill="#fff"/>
-<text x="30" y="42" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="21" text-anchor="start" fill="#111" font-weight="700">USB ゲームパッド無線化 回路図（IM920sL × XIAO RP2040） Rev.3</text>
-<text x="30" y="64" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="12" text-anchor="start" fill="#555" font-weight="normal">ネットラベル（青い枠）が同じ名前どうしは接続。各ボード内で閉じたネットです。</text>
-<text x="990" y="64" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#b45309" font-weight="normal">Rev.3: SW1 と STATUS LED を削除、D+/D− を実配線に合わせて修正</text>
-<rect x="20" y="90" width="980" height="540" rx="10" fill="#fff" stroke="#bbb" stroke-width="1.4"/>
-<text x="40" y="118" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="16" text-anchor="start" fill="#111" font-weight="700">送信機（ゲームパッド側）</text>
-<text x="40" y="138" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#555" font-weight="normal">XIAO が PIO-USB でゲームパッドのホストになり、状態を IM920sL で送信</text>
-<rect x="400" y="170" width="210" height="360" rx="6" fill="#fffbea" stroke="#b8860b" stroke-width="1.4"/>
-<text x="505.0" y="340.0" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="13" text-anchor="middle" fill="#111" font-weight="700">U1</text>
-<text x="505.0" y="358.0" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="middle" fill="#111" font-weight="normal">送信マイコン</text>
-<text x="505.0" y="376.0" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#555" font-weight="normal">Seeed XIAO RP2040</text>
-<text x="505.0" y="160" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#555" font-weight="normal">USB-C：給電（モバイルバッテリー）／書込み／設定</text>
-<rect x="479.0" y="164" width="52" height="10" rx="3" fill="#ddd" stroke="#999"/>
-<line x1="374" y1="200" x2="400" y2="200" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="204" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D0/A0</text>
-<text x="368" y="204" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO26</text>
-<line x1="374" y1="240" x2="400" y2="240" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="244" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D1/A1</text>
-<text x="368" y="244" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO27</text>
-<line x1="374" y1="280" x2="400" y2="280" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="284" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D2/A2</text>
-<text x="368" y="284" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO28</text>
-<line x1="374" y1="320" x2="400" y2="320" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="324" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D3/A3</text>
-<text x="368" y="324" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO29</text>
-<line x1="374" y1="360" x2="400" y2="360" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D4/SDA</text>
-<text x="368" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO6</text>
-<line x1="374" y1="400" x2="400" y2="400" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="404" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D5/SCL</text>
-<text x="368" y="404" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO7</text>
-<line x1="374" y1="440" x2="400" y2="440" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="444" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D6/TX</text>
-<text x="368" y="444" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO0</text>
-<line x1="374" y1="480" x2="400" y2="480" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="484" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D7/RX</text>
-<text x="368" y="484" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO1</text>
-<line x1="610" y1="200" x2="636" y2="200" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="204" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">5V</text>
-<text x="642" y="204" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal"></text>
-<line x1="610" y1="240" x2="636" y2="240" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="244" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">GND</text>
-<text x="642" y="244" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal"></text>
-<line x1="610" y1="280" x2="636" y2="280" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="284" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">3V3</text>
-<text x="642" y="284" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal"></text>
-<line x1="610" y1="320" x2="636" y2="320" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="324" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">D10/MOSI</text>
-<text x="642" y="324" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">GPIO3</text>
-<line x1="610" y1="360" x2="636" y2="360" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">D9/MISO</text>
-<text x="642" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">GPIO4</text>
-<line x1="610" y1="400" x2="636" y2="400" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="404" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">D8/SCK</text>
-<text x="642" y="404" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">GPIO2</text>
-<rect x="292.8" y="192" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="205" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">USB_DP</text>
-<rect x="292.8" y="232" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="245" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">USB_DM</text>
-<rect x="284.6" y="272" width="75.39999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="322.3" y="285" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_BUSY</text>
-<rect x="276.4" y="312" width="83.6" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="318.2" y="325" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RESET</text>
-<rect x="292.8" y="432" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="445" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RXD</text>
-<rect x="292.8" y="472" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="485" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_TXD</text>
-<text x="366" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#999" font-weight="normal">未接続</text>
-<text x="366" y="404" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#999" font-weight="normal">未接続</text>
-<rect x="684" y="192" width="42.599999999999994" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="705.3" y="205" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+5V</text>
-<path d="M690 234 v8 M684 242 h12 M687 246 h6" stroke="#333" stroke-width="1.3" fill="none"/>
-<rect x="684" y="272" width="50.8" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="709.4" y="285" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+3V3</text>
-<text x="684" y="324" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">未接続</text>
-<text x="684" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">未接続</text>
-<text x="684" y="404" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">未接続</text>
-<rect x="740" y="170" width="240" height="250" rx="6" fill="#eefaf1" stroke="#2f855a" stroke-width="1.4"/>
-<line x1="714" y1="200" x2="740" y2="200" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="204" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-9</text>
-<text x="796" y="204" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">VCC</text>
-<text x="970" y="204" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin17</text>
-<rect x="659.2" y="192" width="50.8" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="684.6" y="205" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+3V3</text>
-<line x1="714" y1="232" x2="740" y2="232" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="236" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J2-9</text>
-<text x="796" y="236" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">GND</text>
-<text x="970" y="236" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin18</text>
-<path d="M694 226 v8 M688 234 h12 M691 238 h6" stroke="#333" stroke-width="1.3" fill="none"/>
-<line x1="714" y1="264" x2="740" y2="264" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="268" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J2-3</text>
-<text x="796" y="268" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">RxD（入力）</text>
-<text x="970" y="268" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin6</text>
-<rect x="642.8" y="256" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="676.4" y="269" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RXD</text>
-<line x1="714" y1="296" x2="740" y2="296" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="300" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-4</text>
-<text x="796" y="300" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">TxD（出力）</text>
-<text x="970" y="300" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin7</text>
-<rect x="642.8" y="288" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="676.4" y="301" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_TXD</text>
-<line x1="714" y1="328" x2="740" y2="328" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="332" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-1</text>
-<text x="796" y="332" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">BUSY（L=受付可）</text>
-<text x="970" y="332" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin1</text>
-<rect x="634.6" y="320" width="75.39999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="672.3000000000001" y="333" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_BUSY</text>
-<line x1="714" y1="360" x2="740" y2="360" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-10</text>
-<text x="796" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">RESET（L有効）</text>
-<text x="970" y="364" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin19</text>
-<rect x="626.4" y="352" width="83.6" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="668.1999999999999" y="365" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RESET</text>
-<text x="750" y="396" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">J1-8 STATUS / J2-8 REG は未接続</text>
-<text x="750" y="412" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">上記以外のピンも未接続（オープン）</text>
-<text x="970" y="440" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="12" text-anchor="end" fill="#111" font-weight="700">U2  IM920sL</text>
-<text x="970" y="458" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#555" font-weight="normal">＋ 変換アダプタ IM920sL-ADP（2.54mm ヘッダ J1/J2）</text>
-<rect x="750" y="474" width="50.8" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="775.4" y="487" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+3V3</text>
-<text x="810" y="490" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">C2 10µF</text>
-<text x="880" y="490" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">C3 0.1µF</text>
-<text x="750" y="506" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">U2 の VCC 直近に配置</text>
-<rect x="60" y="230" width="130" height="150" rx="6" fill="#f4f4ff" stroke="#5a5ab8" stroke-width="1.4"/>
-<text x="125" y="252" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="13" text-anchor="middle" fill="#111" font-weight="700">J1</text>
-<text x="125" y="270" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#111" font-weight="normal">USB Type-A</text>
-<text x="125" y="286" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="middle" fill="#555" font-weight="normal">レセプタクル（メス）</text>
-<text x="125" y="302" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="middle" fill="#555" font-weight="normal">→ ゲームパッド</text>
-<text x="70" y="329" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#111" font-weight="normal">1 VBUS</text>
-<rect x="184" y="317" width="42.599999999999994" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="205.3" y="330" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+5V</text>
-<text x="70" y="347" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#111" font-weight="normal">2 D−</text>
-<rect x="184" y="335" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="217.6" y="348" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">USB_DM</text>
-<text x="70" y="365" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#111" font-weight="normal">3 D+</text>
-<rect x="184" y="353" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="217.6" y="366" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">USB_DP</text>
-<text x="70" y="383" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#111" font-weight="normal">4 GND</text>
-<path d="M172 375 v6 M167 381 h10 M169 384 h6" stroke="#333" stroke-width="1.2" fill="none"/>
-<text x="250" y="348" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">R1 22Ω → USB_DM（GPIO27）</text>
-<text x="250" y="366" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">R2 22Ω → USB_DP（GPIO26）</text>
-<text x="250" y="388" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">C1 47µF（+5V）突入電流対策・J1 の近くに配置</text>
-<rect x="20" y="660" width="980" height="470" rx="10" fill="#fff" stroke="#bbb" stroke-width="1.4"/>
-<text x="40" y="688" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="16" text-anchor="start" fill="#111" font-weight="700">受信機（PC 側）</text>
-<text x="40" y="708" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#555" font-weight="normal">XIAO が USB HID ゲームパッド＋USB CDC（設定用シリアル）として PC に接続</text>
-<rect x="400" y="740" width="210" height="360" rx="6" fill="#fffbea" stroke="#b8860b" stroke-width="1.4"/>
-<text x="505.0" y="910.0" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="13" text-anchor="middle" fill="#111" font-weight="700">U1</text>
-<text x="505.0" y="928.0" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="middle" fill="#111" font-weight="normal">受信マイコン</text>
-<text x="505.0" y="946.0" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#555" font-weight="normal">Seeed XIAO RP2040</text>
-<text x="505.0" y="730" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#555" font-weight="normal">USB-C：PC へ（HID＋CDC 複合デバイス）</text>
-<rect x="479.0" y="734" width="52" height="10" rx="3" fill="#ddd" stroke="#999"/>
-<line x1="374" y1="770" x2="400" y2="770" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D0/A0</text>
-<text x="368" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO26</text>
-<line x1="374" y1="810" x2="400" y2="810" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="814" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D1/A1</text>
-<text x="368" y="814" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO27</text>
-<line x1="374" y1="850" x2="400" y2="850" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="854" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D2/A2</text>
-<text x="368" y="854" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO28</text>
-<line x1="374" y1="890" x2="400" y2="890" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="894" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D3/A3</text>
-<text x="368" y="894" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO29</text>
-<line x1="374" y1="930" x2="400" y2="930" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D4/SDA</text>
-<text x="368" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO6</text>
-<line x1="374" y1="970" x2="400" y2="970" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="974" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D5/SCL</text>
-<text x="368" y="974" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO7</text>
-<line x1="374" y1="1010" x2="400" y2="1010" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="1014" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D6/TX</text>
-<text x="368" y="1014" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO0</text>
-<line x1="374" y1="1050" x2="400" y2="1050" stroke="#333" stroke-width="1.2"/>
-<text x="408" y="1054" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">D7/RX</text>
-<text x="368" y="1054" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">GPIO1</text>
-<line x1="610" y1="770" x2="636" y2="770" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">5V</text>
-<text x="642" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal"></text>
-<line x1="610" y1="810" x2="636" y2="810" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="814" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">GND</text>
-<text x="642" y="814" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal"></text>
-<line x1="610" y1="850" x2="636" y2="850" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="854" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">3V3</text>
-<text x="642" y="854" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal"></text>
-<line x1="610" y1="890" x2="636" y2="890" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="894" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">D10/MOSI</text>
-<text x="642" y="894" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">GPIO3</text>
-<line x1="610" y1="930" x2="636" y2="930" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">D9/MISO</text>
-<text x="642" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">GPIO4</text>
-<line x1="610" y1="970" x2="636" y2="970" stroke="#333" stroke-width="1.2"/>
-<text x="602" y="974" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="end" fill="#111" font-weight="normal">D8/SCK</text>
-<text x="642" y="974" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">GPIO2</text>
-<rect x="292.8" y="762" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="775" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">USB_DP</text>
-<rect x="292.8" y="802" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="815" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">USB_DM</text>
-<rect x="284.6" y="842" width="75.39999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="322.3" y="855" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_BUSY</text>
-<rect x="276.4" y="882" width="83.6" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="318.2" y="895" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RESET</text>
-<rect x="292.8" y="1002" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="1015" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RXD</text>
-<rect x="292.8" y="1042" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="326.4" y="1055" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_TXD</text>
-<text x="366" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#999" font-weight="normal">未接続</text>
-<text x="366" y="974" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#999" font-weight="normal">未接続</text>
-<text x="684" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">未接続</text>
-<path d="M690 804 v8 M684 812 h12 M687 816 h6" stroke="#333" stroke-width="1.3" fill="none"/>
-<rect x="684" y="842" width="50.8" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="709.4" y="855" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+3V3</text>
-<text x="684" y="894" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">未接続</text>
-<text x="684" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">未接続</text>
-<text x="684" y="974" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">未接続</text>
-<rect x="740" y="740" width="240" height="250" rx="6" fill="#eefaf1" stroke="#2f855a" stroke-width="1.4"/>
-<line x1="714" y1="770" x2="740" y2="770" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-9</text>
-<text x="796" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">VCC</text>
-<text x="970" y="774" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin17</text>
-<rect x="659.2" y="762" width="50.8" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="684.6" y="775" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+3V3</text>
-<line x1="714" y1="802" x2="740" y2="802" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="806" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J2-9</text>
-<text x="796" y="806" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">GND</text>
-<text x="970" y="806" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin18</text>
-<path d="M694 796 v8 M688 804 h12 M691 808 h6" stroke="#333" stroke-width="1.3" fill="none"/>
-<line x1="714" y1="834" x2="740" y2="834" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="838" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J2-3</text>
-<text x="796" y="838" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">RxD（入力）</text>
-<text x="970" y="838" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin6</text>
-<rect x="642.8" y="826" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="676.4" y="839" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RXD</text>
-<line x1="714" y1="866" x2="740" y2="866" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="870" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-4</text>
-<text x="796" y="870" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">TxD（出力）</text>
-<text x="970" y="870" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin7</text>
-<rect x="642.8" y="858" width="67.19999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="676.4" y="871" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_TXD</text>
-<line x1="714" y1="898" x2="740" y2="898" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="902" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-1</text>
-<text x="796" y="902" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">BUSY（L=受付可）</text>
-<text x="970" y="902" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin1</text>
-<rect x="634.6" y="890" width="75.39999999999999" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="672.3000000000001" y="903" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_BUSY</text>
-<line x1="714" y1="930" x2="740" y2="930" stroke="#333" stroke-width="1.2"/>
-<text x="750" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#2f855a" font-weight="600">J1-10</text>
-<text x="796" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11.5" text-anchor="start" fill="#111" font-weight="normal">RESET（L有効）</text>
-<text x="970" y="934" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#666" font-weight="normal">pin19</text>
-<rect x="626.4" y="922" width="83.6" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="668.1999999999999" y="935" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">IM_RESET</text>
-<text x="750" y="966" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">J1-8 STATUS / J2-8 REG は未接続</text>
-<text x="750" y="982" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#999" font-weight="normal">上記以外のピンも未接続（オープン）</text>
-<text x="970" y="1010" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="12" text-anchor="end" fill="#111" font-weight="700">U2  IM920sL</text>
-<text x="970" y="1028" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="end" fill="#555" font-weight="normal">＋ 変換アダプタ IM920sL-ADP（2.54mm ヘッダ J1/J2）</text>
-<rect x="750" y="1044" width="50.8" height="18" rx="9" fill="#e8f0fe" stroke="#1a56db" stroke-width="1"/>
-<text x="775.4" y="1057" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="middle" fill="#1a56db" font-weight="600">+3V3</text>
-<text x="810" y="1060" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">C2 10µF</text>
-<text x="880" y="1060" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">C3 0.1µF</text>
-<text x="750" y="1076" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="10.5" text-anchor="start" fill="#666" font-weight="normal">U2 の VCC 直近に配置</text>
-<text x="30" y="1150" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="13" text-anchor="start" fill="#b91c1c" font-weight="700">設計メモ（IM920sL 取扱説明書 Rev.1.5 / IM920sL-ADP 製品資料 Rev.1.0 に基づく）</text>
-<text x="30" y="1172" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">・PIO-USB：GPIO26 = D+、GPIO27 = D−（実配線）。ファームは起動時に機器のプルアップ位置から自動判別する。</text>
-<text x="30" y="1189" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">・CPU クロックは 240MHz。120MHz ではタイミング余裕が足りず、USB 機器の列挙に失敗した（アドレス 1 への転送が全滅）。</text>
-<text x="30" y="1206" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">・設定／ペアリングは XIAO の BOOTSEL ボタンで行う（SW1 は廃止）。状態表示は XIAO オンボードのカラー LED を使う（STATUS LED は廃止）。</text>
-<text x="30" y="1223" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">・U2 は IM920sL を変換アダプタに載せ、2.54mm の J1/J2（各 10 ピン）で接続。J1-n = 本体 pin(2n−1)、J2-n = 本体 pin(2n)。</text>
-<text x="30" y="1240" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">・電源 DC2.1〜3.5V（送信時 27mA typ.）。入力 H 判定は 0.8×VDD 以上なので XIAO と同じ 3.3V で動かす（5V 系と直結しない）。</text>
-<text x="30" y="1257" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">・IO8〜IO10 は電源投入時にオープン／L でデータモード。未接続のままにする。REG・RESET は内蔵プルアップあり。</text>
-<text x="30" y="1274" font-family="'Noto Sans CJK JP','Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif" font-size="11" text-anchor="start" fill="#111" font-weight="normal">・+5V はモバイルバッテリー → XIAO の USB-C 経由。パッド込みの実測消費電流は約 60mA。</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1680" viewBox="0 0 1280 1680">
+<rect width="1280" height="1680" fill="#fff"/>
+<text x="20" y="40" font-size="26" text-anchor="start" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USBゲームパッド無線化 回路図（IM920sL × XIAO RP2040）Rev.3</text>
+<text x="20" y="66" font-size="13" text-anchor="start" font-weight="normal" fill="#444" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">ネットラベル（青い旗）が同じ名前どうしは接続。各ボード内で閉じたネットです。</text>
+<rect x="20" y="90" width="1240" height="640" fill="#ffffff" stroke="#999" stroke-width="1.5"/>
+<text x="40" y="124" font-size="22" text-anchor="start" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">送信機（ゲームパッド側）</text>
+<text x="40" y="148" font-size="13" text-anchor="start" font-weight="normal" fill="#444" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">XIAO が PIO-USB でゲームパッドのホストになり、状態を IM920sL で送信</text>
+<rect x="490" y="240" width="230" height="320" fill="#fffbe6" stroke="#111" stroke-width="2"/>
+<rect x="575.0" y="222" width="60" height="18" fill="#ddd" stroke="#111" stroke-width="2"/>
+<text x="605.0" y="216" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USB-C：給電（モバイルバッテリー）／書込み／設定</text>
+<text x="605.0" y="392.0" font-size="15" text-anchor="middle" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">U1</text>
+<text x="605.0" y="412.0" font-size="13" text-anchor="middle" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">送信マイコン</text>
+<text x="605.0" y="430.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">Seeed XIAO RP2040</text>
+<line x1="440" y1="280" x2="490" y2="280" stroke="#111" stroke-width="2"/>
+<text x="498" y="285" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D0/A0</text>
+<text x="487" y="275" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO26</text>
+<line x1="440" y1="320" x2="490" y2="320" stroke="#111" stroke-width="2"/>
+<text x="498" y="325" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D1/A1</text>
+<text x="487" y="315" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO27</text>
+<line x1="440" y1="360" x2="490" y2="360" stroke="#111" stroke-width="2"/>
+<text x="498" y="365" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D2/A2</text>
+<text x="487" y="355" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO28</text>
+<line x1="440" y1="400" x2="490" y2="400" stroke="#111" stroke-width="2"/>
+<text x="498" y="405" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D3/A3</text>
+<text x="487" y="395" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO29</text>
+<line x1="440" y1="440" x2="490" y2="440" stroke="#111" stroke-width="2"/>
+<text x="498" y="445" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D4/SDA</text>
+<text x="487" y="435" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO6</text>
+<line x1="440" y1="480" x2="490" y2="480" stroke="#111" stroke-width="2"/>
+<text x="498" y="485" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D5/SCL</text>
+<text x="487" y="475" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO7</text>
+<line x1="440" y1="520" x2="490" y2="520" stroke="#111" stroke-width="2"/>
+<text x="498" y="525" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D6/TX</text>
+<text x="487" y="515" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO0</text>
+<line x1="720" y1="280" x2="770" y2="280" stroke="#111" stroke-width="2"/>
+<text x="712" y="285" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">5V</text>
+<line x1="720" y1="320" x2="770" y2="320" stroke="#111" stroke-width="2"/>
+<text x="712" y="325" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GND</text>
+<line x1="720" y1="360" x2="770" y2="360" stroke="#111" stroke-width="2"/>
+<text x="712" y="365" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">3V3</text>
+<line x1="720" y1="400" x2="770" y2="400" stroke="#111" stroke-width="2"/>
+<text x="712" y="405" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D10/MOSI</text>
+<text x="723" y="395" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO3</text>
+<line x1="720" y1="440" x2="770" y2="440" stroke="#111" stroke-width="2"/>
+<text x="712" y="445" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D9/MISO</text>
+<text x="723" y="435" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO4</text>
+<line x1="720" y1="480" x2="770" y2="480" stroke="#111" stroke-width="2"/>
+<text x="712" y="485" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D8/SCK</text>
+<text x="723" y="475" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO2</text>
+<line x1="720" y1="520" x2="770" y2="520" stroke="#111" stroke-width="2"/>
+<text x="712" y="525" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D7/RX</text>
+<text x="723" y="515" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO1</text>
+<line x1="330" y1="280" x2="365.0" y2="280" stroke="#111" stroke-width="2"/>
+<line x1="405.0" y1="280" x2="440" y2="280" stroke="#111" stroke-width="2"/>
+<rect x="365.0" y="273" width="40" height="14" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="385.0" y="268" font-size="12" text-anchor="middle" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">R2 22Ω</text>
+<polygon points="330,280 322,270.0 259.0,270.0 259.0,290.0 322,290.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="290.5" y="285" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USB_DP</text>
+<line x1="330" y1="320" x2="365.0" y2="320" stroke="#111" stroke-width="2"/>
+<line x1="405.0" y1="320" x2="440" y2="320" stroke="#111" stroke-width="2"/>
+<rect x="365.0" y="313" width="40" height="14" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="385.0" y="308" font-size="12" text-anchor="middle" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">R1 22Ω</text>
+<polygon points="330,320 322,310.0 259.0,310.0 259.0,330.0 322,330.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="290.5" y="325" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USB_DM</text>
+<polygon points="440,360 432,350.0 360.5,350.0 360.5,370.0 432,370.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="396.25" y="365" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_BUSY</text>
+<polygon points="440,400 432,390.0 352.0,390.0 352.0,410.0 432,410.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="392.0" y="405" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RESET</text>
+<line x1="434" y1="434" x2="446" y2="446" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="446" x2="446" y2="434" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="474" x2="446" y2="486" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="486" x2="446" y2="474" stroke="#888" stroke-width="2"/>
+<polygon points="440,520 432,510.0 369.0,510.0 369.0,530.0 432,530.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="400.5" y="525" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RXD</text>
+<line x1="770" y1="280" x2="790" y2="280" stroke="#111" stroke-width="2"/>
+<circle cx="790" cy="280" r="4" fill="#111"/>
+<line x1="790" y1="280" x2="790" y2="268" stroke="#111" stroke-width="2"/>
+<line x1="778" y1="268" x2="802" y2="268" stroke="#b3261e" stroke-width="3"/>
+<text x="790" y="262" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+5V</text>
+<line x1="770" y1="320" x2="830" y2="320" stroke="#111" stroke-width="2"/>
+<line x1="830" y1="320" x2="830" y2="330" stroke="#111" stroke-width="2"/>
+<line x1="818" y1="330" x2="842" y2="330" stroke="#111" stroke-width="2"/>
+<line x1="822" y1="335" x2="838" y2="335" stroke="#111" stroke-width="2"/>
+<line x1="826" y1="340" x2="834" y2="340" stroke="#111" stroke-width="2"/>
+<line x1="770" y1="360" x2="790" y2="360" stroke="#111" stroke-width="2"/>
+<circle cx="790" cy="360" r="4" fill="#111"/>
+<line x1="790" y1="360" x2="790" y2="348" stroke="#111" stroke-width="2"/>
+<line x1="778" y1="348" x2="802" y2="348" stroke="#b3261e" stroke-width="3"/>
+<text x="790" y="342" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+3V3</text>
+<line x1="764" y1="394" x2="776" y2="406" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="406" x2="776" y2="394" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="434" x2="776" y2="446" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="446" x2="776" y2="434" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="474" x2="776" y2="486" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="486" x2="776" y2="474" stroke="#888" stroke-width="2"/>
+<polygon points="770,520 778,510.0 841.0,510.0 841.0,530.0 778,530.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="809.5" y="525" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_TXD</text>
+<rect x="980" y="185" width="250" height="330" fill="#eef7ee" stroke="#111" stroke-width="2"/>
+<text x="1222" y="453" font-size="15" text-anchor="end" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">U2</text>
+<text x="1222" y="471" font-size="14" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM920sL</text>
+<text x="1222" y="487" font-size="11" text-anchor="end" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">＋ 変換アダプタ IM920sL-ADP</text>
+<text x="1222" y="503" font-size="11" text-anchor="end" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">（2.54mm ヘッダ J1/J2）</text>
+<line x1="940" y1="211" x2="980" y2="211" stroke="#111" stroke-width="2"/>
+<text x="988" y="216" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">VCC</text>
+<text x="976" y="206" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-9</text>
+<text x="1222" y="216" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin17</text>
+<line x1="940" y1="241" x2="980" y2="241" stroke="#111" stroke-width="2"/>
+<text x="988" y="246" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GND</text>
+<text x="976" y="236" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J2-9</text>
+<text x="1222" y="246" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin18</text>
+<line x1="940" y1="271" x2="980" y2="271" stroke="#111" stroke-width="2"/>
+<text x="988" y="276" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">RxD（入力）</text>
+<text x="976" y="266" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J2-3</text>
+<text x="1222" y="276" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin6</text>
+<line x1="940" y1="301" x2="980" y2="301" stroke="#111" stroke-width="2"/>
+<text x="988" y="306" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">TxD（出力）</text>
+<text x="976" y="296" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-4</text>
+<text x="1222" y="306" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin7</text>
+<line x1="940" y1="331" x2="980" y2="331" stroke="#111" stroke-width="2"/>
+<text x="988" y="336" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">BUSY（L=受付可）</text>
+<text x="976" y="326" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-1</text>
+<text x="1222" y="336" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin1</text>
+<line x1="940" y1="361" x2="980" y2="361" stroke="#111" stroke-width="2"/>
+<text x="988" y="366" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">RESET（L有効）</text>
+<text x="976" y="356" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-10</text>
+<text x="1222" y="366" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin19</text>
+<line x1="940" y1="391" x2="980" y2="391" stroke="#111" stroke-width="2"/>
+<text x="988" y="396" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">STATUS（未使用）</text>
+<text x="976" y="386" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-8</text>
+<text x="1222" y="396" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin15</text>
+<line x1="940" y1="421" x2="980" y2="421" stroke="#111" stroke-width="2"/>
+<text x="988" y="426" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">REG（未使用）</text>
+<text x="976" y="416" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J2-8</text>
+<text x="1222" y="426" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin16</text>
+<text x="988" y="455" font-size="10" text-anchor="start" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">上記以外のピンは未接続（オープン）</text>
+<line x1="940" y1="211" x2="910" y2="211" stroke="#111" stroke-width="2"/>
+<circle cx="910" cy="211" r="4" fill="#111"/>
+<line x1="910" y1="211" x2="910" y2="199" stroke="#111" stroke-width="2"/>
+<line x1="898" y1="199" x2="922" y2="199" stroke="#b3261e" stroke-width="3"/>
+<text x="910" y="193" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+3V3</text>
+<line x1="940" y1="241" x2="830" y2="241" stroke="#111" stroke-width="2"/>
+<line x1="830" y1="241" x2="830" y2="251" stroke="#111" stroke-width="2"/>
+<line x1="818" y1="251" x2="842" y2="251" stroke="#111" stroke-width="2"/>
+<line x1="822" y1="256" x2="838" y2="256" stroke="#111" stroke-width="2"/>
+<line x1="826" y1="261" x2="834" y2="261" stroke="#111" stroke-width="2"/>
+<polygon points="940,271 932,261.0 869.0,261.0 869.0,281.0 932,281.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="900.5" y="276" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RXD</text>
+<polygon points="940,301 932,291.0 869.0,291.0 869.0,311.0 932,311.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="900.5" y="306" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_TXD</text>
+<polygon points="940,331 932,321.0 860.5,321.0 860.5,341.0 932,341.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="896.25" y="336" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_BUSY</text>
+<polygon points="940,361 932,351.0 852.0,351.0 852.0,371.0 932,371.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="892.0" y="366" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RESET</text>
+<line x1="934" y1="385" x2="946" y2="397" stroke="#888" stroke-width="2"/>
+<line x1="934" y1="397" x2="946" y2="385" stroke="#888" stroke-width="2"/>
+<line x1="934" y1="415" x2="946" y2="427" stroke="#888" stroke-width="2"/>
+<line x1="934" y1="427" x2="946" y2="415" stroke="#888" stroke-width="2"/>
+<line x1="980" y1="560" x2="980" y2="548" stroke="#111" stroke-width="2"/>
+<line x1="968" y1="548" x2="992" y2="548" stroke="#b3261e" stroke-width="3"/>
+<text x="980" y="542" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+3V3</text>
+<line x1="980" y1="560" x2="1050" y2="560" stroke="#111" stroke-width="2"/>
+<circle cx="980" cy="560" r="4" fill="#111"/>
+<line x1="980" y1="560" x2="980" y2="578" stroke="#111" stroke-width="2"/>
+<line x1="968" y1="578" x2="992" y2="578" stroke="#111" stroke-width="3"/>
+<line x1="968" y1="586" x2="992" y2="586" stroke="#111" stroke-width="3"/>
+<line x1="980" y1="586" x2="980" y2="600" stroke="#111" stroke-width="2"/>
+<line x1="980" y1="600" x2="980" y2="610" stroke="#111" stroke-width="2"/>
+<line x1="968" y1="610" x2="992" y2="610" stroke="#111" stroke-width="2"/>
+<line x1="972" y1="615" x2="988" y2="615" stroke="#111" stroke-width="2"/>
+<line x1="976" y1="620" x2="984" y2="620" stroke="#111" stroke-width="2"/>
+<text x="996" y="586" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">C2 10µF</text>
+<line x1="1050" y1="560" x2="1050" y2="578" stroke="#111" stroke-width="2"/>
+<line x1="1038" y1="578" x2="1062" y2="578" stroke="#111" stroke-width="3"/>
+<line x1="1038" y1="586" x2="1062" y2="586" stroke="#111" stroke-width="3"/>
+<line x1="1050" y1="586" x2="1050" y2="600" stroke="#111" stroke-width="2"/>
+<line x1="1050" y1="600" x2="1050" y2="610" stroke="#111" stroke-width="2"/>
+<line x1="1038" y1="610" x2="1062" y2="610" stroke="#111" stroke-width="2"/>
+<line x1="1042" y1="615" x2="1058" y2="615" stroke="#111" stroke-width="2"/>
+<line x1="1046" y1="620" x2="1054" y2="620" stroke="#111" stroke-width="2"/>
+<text x="1066" y="586" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">C3 0.1µF</text>
+<text x="1015" y="640" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">U2 VCC 直近</text>
+<rect x="40" y="420" width="180" height="200" fill="#eef1fb" stroke="#111" stroke-width="2"/>
+<text x="102" y="510" font-size="15" text-anchor="middle" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1</text>
+<text x="102" y="530" font-size="13" text-anchor="middle" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USB Type-A</text>
+<text x="102" y="548" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">レセプタクル（メス）</text>
+<text x="102" y="566" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">→ ゲームパッド</text>
+<line x1="220" y1="450" x2="260" y2="450" stroke="#111" stroke-width="2"/>
+<text x="214" y="455" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">1 VBUS</text>
+<line x1="220" y1="490" x2="260" y2="490" stroke="#111" stroke-width="2"/>
+<text x="214" y="495" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">2 D−</text>
+<line x1="220" y1="530" x2="260" y2="530" stroke="#111" stroke-width="2"/>
+<text x="214" y="535" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">3 D+</text>
+<line x1="220" y1="570" x2="260" y2="570" stroke="#111" stroke-width="2"/>
+<text x="214" y="575" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">4 GND</text>
+<line x1="260" y1="450" x2="290" y2="450" stroke="#111" stroke-width="2"/>
+<circle cx="290" cy="450" r="4" fill="#111"/>
+<line x1="290" y1="450" x2="290" y2="438" stroke="#111" stroke-width="2"/>
+<line x1="278" y1="438" x2="302" y2="438" stroke="#b3261e" stroke-width="3"/>
+<text x="290" y="432" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+5V</text>
+<polygon points="260,490 268,480.0 331.0,480.0 331.0,500.0 268,500.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="299.5" y="495" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USB_DM</text>
+<polygon points="260,530 268,520.0 331.0,520.0 331.0,540.0 268,540.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="299.5" y="535" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USB_DP</text>
+<line x1="260" y1="570" x2="270" y2="570" stroke="#111" stroke-width="2"/>
+<line x1="270" y1="570" x2="270" y2="580" stroke="#111" stroke-width="2"/>
+<line x1="258" y1="580" x2="282" y2="580" stroke="#111" stroke-width="2"/>
+<line x1="262" y1="585" x2="278" y2="585" stroke="#111" stroke-width="2"/>
+<line x1="266" y1="590" x2="274" y2="590" stroke="#111" stroke-width="2"/>
+<line x1="130" y1="290" x2="130" y2="278" stroke="#111" stroke-width="2"/>
+<line x1="118" y1="278" x2="142" y2="278" stroke="#b3261e" stroke-width="3"/>
+<text x="130" y="272" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+5V</text>
+<circle cx="130" cy="290" r="4" fill="#111"/>
+<line x1="130" y1="290" x2="130" y2="308" stroke="#111" stroke-width="2"/>
+<line x1="118" y1="308" x2="142" y2="308" stroke="#111" stroke-width="3"/>
+<line x1="118" y1="316" x2="142" y2="316" stroke="#111" stroke-width="3"/>
+<line x1="130" y1="316" x2="130" y2="330" stroke="#111" stroke-width="2"/>
+<line x1="130" y1="330" x2="130" y2="340" stroke="#111" stroke-width="2"/>
+<line x1="118" y1="340" x2="142" y2="340" stroke="#111" stroke-width="2"/>
+<line x1="122" y1="345" x2="138" y2="345" stroke="#111" stroke-width="2"/>
+<line x1="126" y1="350" x2="134" y2="350" stroke="#111" stroke-width="2"/>
+<text x="146" y="316" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">C1 47µF</text>
+<text x="190" y="385" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">突入電流対策（J1 近くに配置）</text>
+<text x="40" y="690" font-size="12" text-anchor="start" font-weight="normal" fill="#333" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・PIO-USB：GPIO26=D+, GPIO27=D−（実配線）。pin_dp=26, pinout=PIO_USB_PINOUT_DPDM。CPU クロックは 240MHz（120MHz では列挙に失敗した）。</text>
+<text x="40" y="710" font-size="12" text-anchor="start" font-weight="normal" fill="#333" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・+5V はモバイルバッテリー→XIAO の USB-C 経由。ゲームパッドの消費電流を含めて供給能力を確認。</text>
+<rect x="20" y="770" width="1240" height="640" fill="#ffffff" stroke="#999" stroke-width="1.5"/>
+<text x="40" y="804" font-size="22" text-anchor="start" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">受信機（PC側）</text>
+<text x="40" y="828" font-size="13" text-anchor="start" font-weight="normal" fill="#444" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">XIAO が USB HID ゲームパッド＋USB CDC（設定用シリアル）として PC に接続</text>
+<rect x="490" y="920" width="230" height="320" fill="#fffbe6" stroke="#111" stroke-width="2"/>
+<rect x="575.0" y="902" width="60" height="18" fill="#ddd" stroke="#111" stroke-width="2"/>
+<text x="605.0" y="896" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">USB-C：PC へ（HID＋CDC 複合デバイス）</text>
+<text x="605.0" y="1072.0" font-size="15" text-anchor="middle" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">U1</text>
+<text x="605.0" y="1092.0" font-size="13" text-anchor="middle" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">受信マイコン</text>
+<text x="605.0" y="1110.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">Seeed XIAO RP2040</text>
+<line x1="440" y1="960" x2="490" y2="960" stroke="#111" stroke-width="2"/>
+<text x="498" y="965" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D0/A0</text>
+<text x="487" y="955" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO26</text>
+<line x1="440" y1="1000" x2="490" y2="1000" stroke="#111" stroke-width="2"/>
+<text x="498" y="1005" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D1/A1</text>
+<text x="487" y="995" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO27</text>
+<line x1="440" y1="1040" x2="490" y2="1040" stroke="#111" stroke-width="2"/>
+<text x="498" y="1045" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D2/A2</text>
+<text x="487" y="1035" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO28</text>
+<line x1="440" y1="1080" x2="490" y2="1080" stroke="#111" stroke-width="2"/>
+<text x="498" y="1085" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D3/A3</text>
+<text x="487" y="1075" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO29</text>
+<line x1="440" y1="1120" x2="490" y2="1120" stroke="#111" stroke-width="2"/>
+<text x="498" y="1125" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D4/SDA</text>
+<text x="487" y="1115" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO6</text>
+<line x1="440" y1="1160" x2="490" y2="1160" stroke="#111" stroke-width="2"/>
+<text x="498" y="1165" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D5/SCL</text>
+<text x="487" y="1155" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO7</text>
+<line x1="440" y1="1200" x2="490" y2="1200" stroke="#111" stroke-width="2"/>
+<text x="498" y="1205" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D6/TX</text>
+<text x="487" y="1195" font-size="10" text-anchor="end" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO0</text>
+<line x1="720" y1="960" x2="770" y2="960" stroke="#111" stroke-width="2"/>
+<text x="712" y="965" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">5V</text>
+<line x1="720" y1="1000" x2="770" y2="1000" stroke="#111" stroke-width="2"/>
+<text x="712" y="1005" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GND</text>
+<line x1="720" y1="1040" x2="770" y2="1040" stroke="#111" stroke-width="2"/>
+<text x="712" y="1045" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">3V3</text>
+<line x1="720" y1="1080" x2="770" y2="1080" stroke="#111" stroke-width="2"/>
+<text x="712" y="1085" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D10/MOSI</text>
+<text x="723" y="1075" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO3</text>
+<line x1="720" y1="1120" x2="770" y2="1120" stroke="#111" stroke-width="2"/>
+<text x="712" y="1125" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D9/MISO</text>
+<text x="723" y="1115" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO4</text>
+<line x1="720" y1="1160" x2="770" y2="1160" stroke="#111" stroke-width="2"/>
+<text x="712" y="1165" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D8/SCK</text>
+<text x="723" y="1155" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO2</text>
+<line x1="720" y1="1200" x2="770" y2="1200" stroke="#111" stroke-width="2"/>
+<text x="712" y="1205" font-size="12" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">D7/RX</text>
+<text x="723" y="1195" font-size="10" text-anchor="start" font-weight="normal" fill="#666" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GPIO1</text>
+<line x1="434" y1="954" x2="446" y2="966" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="966" x2="446" y2="954" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="994" x2="446" y2="1006" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="1006" x2="446" y2="994" stroke="#888" stroke-width="2"/>
+<polygon points="440,1040 432,1030.0 360.5,1030.0 360.5,1050.0 432,1050.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="396.25" y="1045" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_BUSY</text>
+<polygon points="440,1080 432,1070.0 352.0,1070.0 352.0,1090.0 432,1090.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="392.0" y="1085" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RESET</text>
+<line x1="434" y1="1114" x2="446" y2="1126" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="1126" x2="446" y2="1114" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="1154" x2="446" y2="1166" stroke="#888" stroke-width="2"/>
+<line x1="434" y1="1166" x2="446" y2="1154" stroke="#888" stroke-width="2"/>
+<polygon points="440,1200 432,1190.0 369.0,1190.0 369.0,1210.0 432,1210.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="400.5" y="1205" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RXD</text>
+<line x1="764" y1="954" x2="776" y2="966" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="966" x2="776" y2="954" stroke="#888" stroke-width="2"/>
+<line x1="770" y1="1000" x2="830" y2="1000" stroke="#111" stroke-width="2"/>
+<line x1="830" y1="1000" x2="830" y2="1010" stroke="#111" stroke-width="2"/>
+<line x1="818" y1="1010" x2="842" y2="1010" stroke="#111" stroke-width="2"/>
+<line x1="822" y1="1015" x2="838" y2="1015" stroke="#111" stroke-width="2"/>
+<line x1="826" y1="1020" x2="834" y2="1020" stroke="#111" stroke-width="2"/>
+<line x1="770" y1="1040" x2="790" y2="1040" stroke="#111" stroke-width="2"/>
+<circle cx="790" cy="1040" r="4" fill="#111"/>
+<line x1="790" y1="1040" x2="790" y2="1028" stroke="#111" stroke-width="2"/>
+<line x1="778" y1="1028" x2="802" y2="1028" stroke="#b3261e" stroke-width="3"/>
+<text x="790" y="1022" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+3V3</text>
+<line x1="764" y1="1074" x2="776" y2="1086" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="1086" x2="776" y2="1074" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="1114" x2="776" y2="1126" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="1126" x2="776" y2="1114" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="1154" x2="776" y2="1166" stroke="#888" stroke-width="2"/>
+<line x1="764" y1="1166" x2="776" y2="1154" stroke="#888" stroke-width="2"/>
+<polygon points="770,1200 778,1190.0 841.0,1190.0 841.0,1210.0 778,1210.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="809.5" y="1205" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_TXD</text>
+<rect x="980" y="865" width="250" height="330" fill="#eef7ee" stroke="#111" stroke-width="2"/>
+<text x="1222" y="1133" font-size="15" text-anchor="end" font-weight="bold" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">U2</text>
+<text x="1222" y="1151" font-size="14" text-anchor="end" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM920sL</text>
+<text x="1222" y="1167" font-size="11" text-anchor="end" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">＋ 変換アダプタ IM920sL-ADP</text>
+<text x="1222" y="1183" font-size="11" text-anchor="end" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">（2.54mm ヘッダ J1/J2）</text>
+<line x1="940" y1="891" x2="980" y2="891" stroke="#111" stroke-width="2"/>
+<text x="988" y="896" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">VCC</text>
+<text x="976" y="886" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-9</text>
+<text x="1222" y="896" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin17</text>
+<line x1="940" y1="921" x2="980" y2="921" stroke="#111" stroke-width="2"/>
+<text x="988" y="926" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">GND</text>
+<text x="976" y="916" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J2-9</text>
+<text x="1222" y="926" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin18</text>
+<line x1="940" y1="951" x2="980" y2="951" stroke="#111" stroke-width="2"/>
+<text x="988" y="956" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">RxD（入力）</text>
+<text x="976" y="946" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J2-3</text>
+<text x="1222" y="956" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin6</text>
+<line x1="940" y1="981" x2="980" y2="981" stroke="#111" stroke-width="2"/>
+<text x="988" y="986" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">TxD（出力）</text>
+<text x="976" y="976" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-4</text>
+<text x="1222" y="986" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin7</text>
+<line x1="940" y1="1011" x2="980" y2="1011" stroke="#111" stroke-width="2"/>
+<text x="988" y="1016" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">BUSY（L=受付可）</text>
+<text x="976" y="1006" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-1</text>
+<text x="1222" y="1016" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin1</text>
+<line x1="940" y1="1041" x2="980" y2="1041" stroke="#111" stroke-width="2"/>
+<text x="988" y="1046" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">RESET（L有効）</text>
+<text x="976" y="1036" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-10</text>
+<text x="1222" y="1046" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin19</text>
+<line x1="940" y1="1071" x2="980" y2="1071" stroke="#111" stroke-width="2"/>
+<text x="988" y="1076" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">STATUS（未使用）</text>
+<text x="976" y="1066" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J1-8</text>
+<text x="1222" y="1076" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin15</text>
+<line x1="940" y1="1101" x2="980" y2="1101" stroke="#111" stroke-width="2"/>
+<text x="988" y="1106" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">REG（未使用）</text>
+<text x="976" y="1096" font-size="10" text-anchor="end" font-weight="normal" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">J2-8</text>
+<text x="1222" y="1106" font-size="10" text-anchor="end" font-weight="normal" fill="#888" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">pin16</text>
+<text x="988" y="1135" font-size="10" text-anchor="start" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">上記以外のピンは未接続（オープン）</text>
+<line x1="940" y1="891" x2="910" y2="891" stroke="#111" stroke-width="2"/>
+<circle cx="910" cy="891" r="4" fill="#111"/>
+<line x1="910" y1="891" x2="910" y2="879" stroke="#111" stroke-width="2"/>
+<line x1="898" y1="879" x2="922" y2="879" stroke="#b3261e" stroke-width="3"/>
+<text x="910" y="873" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+3V3</text>
+<line x1="940" y1="921" x2="830" y2="921" stroke="#111" stroke-width="2"/>
+<line x1="830" y1="921" x2="830" y2="931" stroke="#111" stroke-width="2"/>
+<line x1="818" y1="931" x2="842" y2="931" stroke="#111" stroke-width="2"/>
+<line x1="822" y1="936" x2="838" y2="936" stroke="#111" stroke-width="2"/>
+<line x1="826" y1="941" x2="834" y2="941" stroke="#111" stroke-width="2"/>
+<polygon points="940,951 932,941.0 869.0,941.0 869.0,961.0 932,961.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="900.5" y="956" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RXD</text>
+<polygon points="940,981 932,971.0 869.0,971.0 869.0,991.0 932,991.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="900.5" y="986" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_TXD</text>
+<polygon points="940,1011 932,1001.0 860.5,1001.0 860.5,1021.0 932,1021.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="896.25" y="1016" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_BUSY</text>
+<polygon points="940,1041 932,1031.0 852.0,1031.0 852.0,1051.0 932,1051.0" fill="#e8f1fb" stroke="#0b5cad" stroke-width="1.5"/>
+<text x="892.0" y="1046" font-size="13" text-anchor="middle" font-weight="bold" fill="#0b5cad" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">IM_RESET</text>
+<line x1="934" y1="1065" x2="946" y2="1077" stroke="#888" stroke-width="2"/>
+<line x1="934" y1="1077" x2="946" y2="1065" stroke="#888" stroke-width="2"/>
+<line x1="934" y1="1095" x2="946" y2="1107" stroke="#888" stroke-width="2"/>
+<line x1="934" y1="1107" x2="946" y2="1095" stroke="#888" stroke-width="2"/>
+<line x1="980" y1="1240" x2="980" y2="1228" stroke="#111" stroke-width="2"/>
+<line x1="968" y1="1228" x2="992" y2="1228" stroke="#b3261e" stroke-width="3"/>
+<text x="980" y="1222" font-size="13" text-anchor="middle" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">+3V3</text>
+<line x1="980" y1="1240" x2="1050" y2="1240" stroke="#111" stroke-width="2"/>
+<circle cx="980" cy="1240" r="4" fill="#111"/>
+<line x1="980" y1="1240" x2="980" y2="1258" stroke="#111" stroke-width="2"/>
+<line x1="968" y1="1258" x2="992" y2="1258" stroke="#111" stroke-width="3"/>
+<line x1="968" y1="1266" x2="992" y2="1266" stroke="#111" stroke-width="3"/>
+<line x1="980" y1="1266" x2="980" y2="1280" stroke="#111" stroke-width="2"/>
+<line x1="980" y1="1280" x2="980" y2="1290" stroke="#111" stroke-width="2"/>
+<line x1="968" y1="1290" x2="992" y2="1290" stroke="#111" stroke-width="2"/>
+<line x1="972" y1="1295" x2="988" y2="1295" stroke="#111" stroke-width="2"/>
+<line x1="976" y1="1300" x2="984" y2="1300" stroke="#111" stroke-width="2"/>
+<text x="996" y="1266" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">C2 10µF</text>
+<line x1="1050" y1="1240" x2="1050" y2="1258" stroke="#111" stroke-width="2"/>
+<line x1="1038" y1="1258" x2="1062" y2="1258" stroke="#111" stroke-width="3"/>
+<line x1="1038" y1="1266" x2="1062" y2="1266" stroke="#111" stroke-width="3"/>
+<line x1="1050" y1="1266" x2="1050" y2="1280" stroke="#111" stroke-width="2"/>
+<line x1="1050" y1="1280" x2="1050" y2="1290" stroke="#111" stroke-width="2"/>
+<line x1="1038" y1="1290" x2="1062" y2="1290" stroke="#111" stroke-width="2"/>
+<line x1="1042" y1="1295" x2="1058" y2="1295" stroke="#111" stroke-width="2"/>
+<line x1="1046" y1="1300" x2="1054" y2="1300" stroke="#111" stroke-width="2"/>
+<text x="1066" y="1266" font-size="12" text-anchor="start" font-weight="normal" fill="#111" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">C3 0.1µF</text>
+<text x="1015" y="1320" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">U2 VCC 直近</text>
+<text x="40" y="1370" font-size="12" text-anchor="start" font-weight="normal" fill="#333" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・USB-C を PC に接続。TinyUSB で HID ゲームパッド＋CDC の複合デバイスにし、CDC から IM920sL を設定できる。</text>
+<text x="40" y="1390" font-size="12" text-anchor="start" font-weight="normal" fill="#333" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・+5V（XIAO の 5V ピン）は未使用。</text>
+<text x="20" y="1484" font-size="14" text-anchor="start" font-weight="bold" fill="#b3261e" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">設計メモ（IM920sL 取扱説明書 Rev.1.5 / IM920sL-ADP 製品資料 Rev.1.0 に基づく）</text>
+<text x="20" y="1508" font-size="13" text-anchor="start" font-weight="normal" fill="#222" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・U2 は IM920sL を変換アダプタに載せ、2.54mm の J1/J2（各10ピン）で接続。J1/J2 番号の右の pinNN は IM920sL 本体コネクタ番号。</text>
+<text x="20" y="1532" font-size="13" text-anchor="start" font-weight="normal" fill="#222" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・電源 DC2.1〜3.5V（送信時 27mA typ.）。入力 H 判定は 0.8×VDD 以上なので XIAO と同じ 3.3V で動かす（5V 系と直結しない）。</text>
+<text x="20" y="1556" font-size="13" text-anchor="start" font-weight="normal" fill="#222" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・BUSY：L の間だけコマンド受付。RESET：L でリセット（内部 10kΩ プルアップ）。STGN でのペアリング後は SRST では復帰しないため RESET 端子で再起動。</text>
+<text x="20" y="1580" font-size="13" text-anchor="start" font-weight="normal" fill="#222" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・IO8〜IO10 は電源投入時 オープン/L でデータモード。未接続のままにする。REG・RESET は内蔵プルアップあり。</text>
+<text x="20" y="1604" font-size="13" text-anchor="start" font-weight="normal" fill="#222" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・Rev.3 で SW1（GPIO2）と STATUS LED を削除。設定/ペアリングは XIAO の BOOT ボタン（起動後に押下、BOOTSEL で読取）と USB シリアルのコマンドで行う。</text>
+<text x="20" y="1628" font-size="13" text-anchor="start" font-weight="normal" fill="#222" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・IM920sL の STATUS（J1-8）は未接続。状態はコマンド（RDGN など）と USB シリアルのログで確認する。</text>
+<text x="20" y="1652" font-size="13" text-anchor="start" font-weight="normal" fill="#222" font-family="'Noto Sans CJK JP','Noto Sans JP','Yu Gothic UI','Yu Gothic','Meiryo','Hiragino Sans',sans-serif">・送信機の USB D+/D− は実機で機器のプルアップ位置から確認（GPIO26=D+）。ファームは起動時に自動判別する。</text>
 </svg>
