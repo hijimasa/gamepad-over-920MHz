@@ -38,6 +38,29 @@ struct TxCfg { uint32_t magic; uint8_t dpPin; uint8_t rsv[3]; };
 #define WG_FASTBOOT_MAGIC 0x57474642UL   // 'WGFB'
 static __uninitialized_ram(uint32_t) g_fastBootFlag;
 
+// ---- ブラックボックス ----
+// 赤点滅や自動再起動が起きても、再起動でカウンタが消えて原因が追えなかった。
+// __uninitialized_ram はソフトリセットでは保持されるので、ここに記録を残す。
+// （電源を抜くと magic が壊れてクリアされる＝手動の電源断と自動再起動を区別できる）
+#define WG_BB_MAGIC 0x57474242UL         // 'WGBB'
+enum {                                   // 再起動・赤点滅の理由
+  WG_R_NONE = 0, WG_R_CORE1, WG_R_DESC, WG_R_MANUAL,
+  WG_R_PAD, WG_R_HOST, WG_R_HB, WG_R_RXDOWN,
+};
+typedef struct {
+  uint32_t magic;
+  uint32_t boots;           // ソフト再起動の回数
+  uint32_t rebootReason;    // 最後の自動再起動の理由
+  uint32_t upMs;            // そのときの稼働時間
+  uint32_t reports, ok, ng; // そのときの主要カウンタ
+  uint32_t hbAgeMs;         // 最後にハートビートを受けてからの経過
+  uint32_t redCount;        // 赤点滅に落ちた回数（累積）
+  uint32_t redPad, redHost, redHb, redRx;   // その原因別の内訳
+  uint32_t lastRedMs;       // 直近に赤へ落ちた時刻
+} WgBlackBox;   // __uninitialized_ram はマクロ引数をセクション名に使うので
+                // 空白を含まない 1 語の型名が必要
+static __uninitialized_ram(WgBlackBox) g_bb;
+
 static TxCfg   g_cfg;
 static uint8_t g_usbDp = PIN_USB_HOST_DP_DEFAULT;
 static const char *g_usbDpSrc = "default";
@@ -562,6 +585,35 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance,
 // =====================================================================
 // コア0: IM920sL 送信 + CDC コンソール
 // =====================================================================
+static const char *wgReasonName(uint32_t r) {
+  switch (r) {
+    case WG_R_CORE1:  return "コア1(PIO-USB)の停止";
+    case WG_R_DESC:   return "ディスクリプタ変更による再起動";
+    case WG_R_MANUAL: return "コンソールからの reboot";
+    case WG_R_PAD:    return "パッド切断";
+    case WG_R_HOST:   return "USB ホスト停止";
+    case WG_R_HB:     return "ハートビート途絶";
+    case WG_R_RXDOWN: return "受信機が前方向を受信できていない";
+    default:          return "なし";
+  }
+}
+static void wgBbPrint(Stream &o) {
+  o.printf("ブラックボックス: ソフト再起動 %lu 回 / 赤点滅 %lu 回\n",
+           (unsigned long)g_bb.boots, (unsigned long)g_bb.redCount);
+  if (g_bb.redCount)
+    o.printf("  赤点滅の内訳: パッド切断=%lu USBホスト停止=%lu "
+             "ハートビート途絶=%lu 受信機側=%lu（最後は %lums 時点）\n",
+             (unsigned long)g_bb.redPad, (unsigned long)g_bb.redHost,
+             (unsigned long)g_bb.redHb, (unsigned long)g_bb.redRx,
+             (unsigned long)g_bb.lastRedMs);
+  if (g_bb.rebootReason)
+    o.printf("  直近の自動再起動: %s（稼働 %lums, reports=%lu ok=%lu ng=%lu, "
+             "ハートビート %lums 前）\n",
+             wgReasonName(g_bb.rebootReason), (unsigned long)g_bb.upMs,
+             (unsigned long)g_bb.reports, (unsigned long)g_bb.ok,
+             (unsigned long)g_bb.ng, (unsigned long)g_bb.hbAgeMs);
+}
+
 static void printHelp() {
   Serial.println(F("commands:"));
   Serial.println(F("  help    このヘルプ"));
@@ -632,7 +684,8 @@ static void printStatus() {
                 (unsigned long)g_rxLines, (unsigned long)g_rxLinesParsed,
                 (unsigned long)g_rxFromRx, (unsigned long)g_hbBad);
   if (g_hbCount)
-    Serial.printf("  RSSI: こちらで受信=%ddBm / 受信機側で受信=%ddBm\n",
+    wgBbPrint(Serial);
+  Serial.printf("  RSSI: こちらで受信=%ddBm / 受信機側で受信=%ddBm\n",
                   g_hbRssiHere, g_hbRssiThere);
 }
 
@@ -747,7 +800,10 @@ static void handleLine(char *line) {
       Serial.println(F("※1 パケットあたり通信時間が 24 バイト分（約1.9ms）増えます"));
     }
   }
-  else if (!strcasecmp(line, "reboot")) { Serial.flush(); rp2040.reboot(); }
+  else if (!strcasecmp(line, "reboot")) {
+    g_bb.rebootReason = WG_R_MANUAL; g_bb.upMs = millis();
+    Serial.flush(); rp2040.reboot();
+  }
   else Serial.printf("unknown: %s（help でコマンド一覧）\n", line);
 }
 
@@ -975,6 +1031,12 @@ static void bootButtonWindow() {
 
 void setup() {
   Serial.begin(115200);
+  if (g_bb.magic != WG_BB_MAGIC) {      // 電源投入（RAM の内容が壊れている）
+    memset(&g_bb, 0, sizeof(g_bb));
+    g_bb.magic = WG_BB_MAGIC;
+  } else {
+    g_bb.boots++;                       // ソフト再起動で戻ってきた
+  }
   mutex_init(&g_mtx);
   EEPROM.begin(256);
   cfgLoad();
@@ -1127,6 +1189,12 @@ void loop() {
       padConn = false;
       if (now - g_hostTickMs > HOST_REBOOT_MS) {
         Serial.println(F("復帰しないため再起動します"));
+        g_bb.rebootReason = WG_R_CORE1;         // 次の起動で読めるように記録
+        g_bb.upMs = now;
+        g_bb.reports = g_reportCount;
+        g_bb.ok = g_okCount;
+        g_bb.ng = g_ngCount;
+        g_bb.hbAgeMs = g_hbCount ? (now - g_lastHbMs) : 0xFFFFFFFFUL;
         Serial.flush();
         g_fastBootFlag = WG_FASTBOOT_MAGIC;
         delay(50);
@@ -1142,6 +1210,17 @@ void loop() {
   //           受信機からハートビートが届いている ＋ 受信機が前方向を受信できている
   bool hbFresh = g_hbCount && (now - g_lastHbMs) < HB_TIMEOUT_MS;
   bool linkOk = padConn && g_hostAlive && hbFresh && g_rxReceiving;
+    // 緑→赤に落ちた瞬間だけ、原因を記録する（再起動しても残る）
+    if (!linkOk && g_led.mode() == WG_LED_CONNECTED) {
+      g_bb.redCount++;
+      g_bb.lastRedMs = now;
+      uint32_t why = WG_R_NONE;
+      if (!padConn)            { g_bb.redPad++;  why = WG_R_PAD; }
+      else if (!g_hostAlive)   { g_bb.redHost++; why = WG_R_HOST; }
+      else if (!hbFresh)       { g_bb.redHb++;   why = WG_R_HB; }
+      else                     { g_bb.redRx++;   why = WG_R_RXDOWN; }
+      Serial.printf("[%lu] 赤点滅へ: %s\n", (unsigned long)now, wgReasonName(why));
+    }
     g_led.set(linkOk ? WG_LED_CONNECTED : WG_LED_DISCONNECTED);
   }
 
