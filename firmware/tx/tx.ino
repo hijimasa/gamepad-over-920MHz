@@ -57,8 +57,16 @@ static const char *g_usbDpSrc = "default";
 static uint32_t TX_MIN_INTERVAL = 30;    // 最短送信間隔 [ms]（rate コマンドで変更可）
 static uint32_t TX_KEEPALIVE    = 60;    // 変化がなくても送る間隔 [ms]
 static const uint32_t TX_INFO_PERIOD  = 2000;  // Info パケットの間隔 [ms]
-static const uint32_t HB_TIMEOUT_MS   = 5000;  // これだけ受信機からの応答が無ければリンク断
-                                              // （ハートビートは 2 秒周期なので余裕を見る）
+// 送信機のモジュールは半二重で、自分が送信している間は受信できない。
+// 実測（2026-09-19）では送信間隔によってハートビートの取りこぼしが大きく変わる:
+//   送信 60ms（パッド静止）… 欠落 6.6%
+//   送信 30ms（操作中）  … 欠落 29.5%
+// ハートビートは 2 秒周期なので、5 秒では 2 回連続の欠落（操作中で 8.7%）で
+// リンク断と誤判定していた。平均 20〜30 秒に 1 回、動作中に突然赤点滅する原因。
+// 15 秒あれば 7 回連続の欠落が必要になり（0.02%）、実用上起きない。
+// ※ ロボットの保護は受信側の 300ms フェイルセーフが行うので、
+//    送信側のリンク判定を鈍くしても安全性は落ちない。
+static const uint32_t HB_TIMEOUT_MS   = 15000;
 
 extern "C" void wgPioState(int *initialized, int *connected, int *fullspeed,
                            int *suspended, unsigned long *ints,
@@ -129,7 +137,10 @@ static uint32_t g_lockFail = 0;
 // 通知が届かず片方だけ移動しても、双方「一定時間受信が無ければ 31 へ戻る」ので復帰できる。
 #define WG_CH_HOME      31
 #define WG_CH_LAST      45
-static const uint32_t CH_REVERT_MS = 12000;  // これだけ応答が無ければ待ち合わせに戻る
+// 待ち合わせ（ch31）に戻る判定もハートビート頼りなので、同じ理由で延ばす。
+// 12 秒＝6 回連続の欠落（操作中で 0.07%／2 秒ごと）で誤って再走査に入り、
+// 受信機を取り残して本当の通信断を作っていた。30 秒なら 15 回連続が必要。
+static const uint32_t CH_REVERT_MS = 30000;  // これだけ応答が無ければ待ち合わせに戻る
 static const int      CH_MAX_TRIES = 3;      // 移動を試みる回数の上限
 
 static uint8_t  g_curCh = WG_CH_HOME;
