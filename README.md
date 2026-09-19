@@ -1,18 +1,90 @@
-# wireless_gamepad — USB ゲームパッドの 920MHz 無線化（IM920sL × XIAO RP2040）
+# gamepad-over-920MHz
 
-仕様と回路は [docs/HANDOFF.md](docs/HANDOFF.md) と `docs/gamepad_wireless_schematic.pdf`（Rev.2）を参照。
+**USB ゲームパッドを 920MHz 帯（IM920sL）で無線化する**ファームウェアです。
+Bluetooth より遠くまで届く無線リンクに載せ替えつつ、PC からは**普通のゲームパッドのまま**に見せます。
+ロボットの遠隔操縦を想定しています。
 
-> IM920sL 本体と変換アダプタ IM920sL-ADP の取扱説明書は、メーカー（インタープラン）の
-> 配布物なのでリポジトリには含めていない。<https://www.interplan.co.jp/> から入手し、
+```
+[USBゲームパッド] ─USB(PIO-USB)→ [送信機 XIAO RP2040] ─UART→ [IM920sL]
+                                                                 │ 920MHz
+[PC] ←USB HID + CDC─ [受信機 XIAO RP2040] ←UART─ [IM920sL] ←─────┘
+```
+
+## 特徴
+
+- **軸番号・ボタン番号が元のパッドと一致する。** 送信機がパッドの HID レポート
+  ディスクリプタを解析して軸構成を無線で送り、受信機がそれに合わせて HID
+  ディスクリプタを実行時に組み立てます。**受信機側の設定は不要**で、
+  `/dev/input/js0` の番号が直挿しと同じになるので、既存のソフトをそのまま使えます。
+- **フェイルセーフ。** 有効なパケットが 300ms 途絶えると、受信機は全軸中立・
+  全ボタン OFF を出力します（実測で約 300ms、ログにも残ります）。
+- **リンクの生死が送信機側でも分かる。** 受信機から 2 秒ごとにハートビートを返し、
+  「受信機が前方向を受信できているか」まで含めて LED に反映します。
+- **チャンネル自動選定。** 起動時に 31〜45 の雑音を測って空いているチャンネルへ移動します。
+  複数ペアを同時に運用しても電波を取り合いません。通信が途絶えたら待ち合わせ用の
+  ch31 へ自動で戻ります。
+- **暗号化（AES-GCM 256bit）。** 同じグループ番号さえ合えば誰でも操作できてしまう
+  状態を防げます。
+- **USB CDC コンソール。** 設定・ペアリング・電波品質の確認・配線の切り分けができます。
+
+Linux と Windows の両方で動作を確認しています（macOS は未確認ですが、標準の HID と
+CDC しか使っていないため動く見込みです）。
+
+## 必要なもの
+
+| | 品目 | 備考 |
+|---|---|---|
+| 送信機 | Seeed XIAO RP2040 ×1 | CPU 240MHz で動かす（PIO-USB の要件） |
+| 送信機 | IM920sL ＋ IM920sL-ADP ×1 | 変換アダプタ経由で 2.54mm に |
+| 送信機 | USB Type-A メスコネクタ | ゲームパッド接続用 |
+| 送信機 | モバイルバッテリー | 実測の消費電流は約 60mA |
+| 受信機 | Seeed XIAO RP2040 ×1 | PC に USB-C で接続 |
+| 受信機 | IM920sL ＋ IM920sL-ADP ×1 | |
+
+配線は [docs/gamepad_wireless_schematic.pdf](docs/gamepad_wireless_schematic.pdf)（Rev.2）、
+部品表は [docs/gamepad_wireless_BOM.xlsx](docs/gamepad_wireless_BOM.xlsx) を参照してください。
+
+> IM920sL 本体と変換アダプタの取扱説明書は、メーカー（インタープラン）の配布物なので
+> リポジトリには含めていません。<https://www.interplan.co.jp/> から入手し、
 > `docs/IM920sL_manual.pdf` / `docs/IM920sL_ADP_manual.pdf` として置くと、
-> 本 README 中の参照（コマンド仕様・端子表・チャンネル表）と対応する。
-本 README は実装したファームウェアの説明。
+> 本 README 中の参照（コマンド仕様・端子表・チャンネル表）と対応します。
 
+## 最短の始め方
+
+```bash
+# 1. ビルド環境（arduino-cli）
+arduino-cli config add board_manager.additional_urls \
+  https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+arduino-cli core update-index
+arduino-cli core install rp2040:rp2040
+arduino-cli lib install "Pico PIO USB" "Adafruit NeoPixel"
+
+# 2. 書込み
+./build.sh rx upload /dev/ttyACM0   # 受信機
+./build.sh tx upload /dev/ttyACM1   # 送信機
+
+# 3. ペアリング（初回だけ。両機を 50cm 以内に置く）
+#    起動後 5 秒以内（LED が水色の速い点滅）か、赤点滅中に
+#    受信機 → 送信機 の順に BOOTSEL を 3 秒以上長押し
+
+# 4. 確認
+tools/jsinfo.py 10     # /dev/input/js0 の軸数・ボタン数とライブの値
 ```
-[USBゲームパッド] ─USB(PIO-USB)→ [TX XIAO RP2040] ─UART→ [IM920sL]
-                                                              │ 920MHz
-[PC] ←USB HID + CDC─ [RX XIAO RP2040] ←UART─ [IM920sL] ←──────┘
-```
+
+うまくいくと**両機とも緑点灯**になり、PC に `irlab Wireless Gamepad` として
+ゲームパッドが現れます。
+
+詳しい操作は[操作（BOOTSEL ボタン ／ CDC コンソール）](#操作bootsel-ボタン--cdc-コンソール)、
+うまくいかないときは[診断に使えるコマンド](#診断に使えるコマンド)を参照してください。
+
+## ライセンス
+
+MIT License（[LICENSE](LICENSE)）。
+
+---
+
+以下は実装と実機検証の詳細です。立ち上げで踏んだ問題（PIO-USB の 240MHz 要件、
+TxD/RxD 逆接続の切り分け、コア1 だけが死ぬ故障モードなど）も記録してあります。
 
 ## ビルドと書込み
 
@@ -22,7 +94,7 @@
 ./build.sh tx upload /dev/ttyACM0   # ビルドして書込み
 ```
 
-必要なもの（インストール済み）:
+必要な環境:
 
 - arduino-cli ＋ `rp2040:rp2040`（earlephilhower コア）
 - ライブラリ `Pico PIO USB`、`Adafruit NeoPixel`
