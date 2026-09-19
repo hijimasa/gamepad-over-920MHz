@@ -50,8 +50,12 @@ static const char *g_usbDpSrc = "default";
 // NG は一度も連続しなかった（90/120ms で全て単発）ので、欠落は最悪 2 周期分。
 // 90ms なら 180ms で、受信側フェイルセーフ 300ms に余裕がある。
 // ※ 暗号化を有効にすると 1 パケットが 24 バイト増えるので、その場合は要再測定。
-static uint32_t TX_MIN_INTERVAL = 90;    // 最短送信間隔 [ms]（rate コマンドで変更可）
-static uint32_t TX_KEEPALIVE    = 90;    // 変化がなくても送る間隔 [ms]
+// NG は単発でしか起きないことが実測で分かったので（次の周期で回復し、受信側
+// フェイルセーフ 300ms には届かない）、間隔を延ばすより詰めたほうが実効レートが高い。
+// 90ms に延ばした実測では NG 率 9.2%→7.5% と引き換えに
+// 実効更新レートが 8.8/s→6.5/s まで落ちたため、30/60ms に戻した。
+static uint32_t TX_MIN_INTERVAL = 30;    // 最短送信間隔 [ms]（rate コマンドで変更可）
+static uint32_t TX_KEEPALIVE    = 60;    // 変化がなくても送る間隔 [ms]
 static const uint32_t TX_INFO_PERIOD  = 2000;  // Info パケットの間隔 [ms]
 static const uint32_t HB_TIMEOUT_MS   = 5000;  // これだけ受信機からの応答が無ければリンク断
                                               // （ハートビートは 2 秒周期なので余裕を見る）

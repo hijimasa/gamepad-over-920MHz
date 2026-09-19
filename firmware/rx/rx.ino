@@ -58,6 +58,15 @@ static bool     g_failsafe = true;
 static uint32_t g_lostAtMs = 0;
 static int8_t   g_rssi = 0;
 static uint32_t g_pktCount = 0, g_badCount = 0, g_dropCount = 0, g_lostCount = 0;
+// 「電波で消えた」のか「受信機が取りこぼした」のかを切り分けるための計測
+static uint32_t g_lineCount = 0;      // 行リーダが組み立てた行数
+static uint32_t g_parseFail = 0;      // 受信行として解釈できなかった行
+static uint32_t g_otherNode = 0;      // 送信機以外のノードからの行
+static uint32_t g_uartOver  = 0;      // Serial1 の FIFO 溢れ（＝取りこぼし）
+static uint32_t g_maxLoopMs = 0;      // loop() の最大間隔。22ms 超で FIFO が溢れうる
+static uint32_t g_gapHist[7] = {0};   // seq の飛びの分布。均一なロスか瞬断かを見る
+static uint32_t g_maxGap = 0;         // 最大の連続欠落数
+static uint32_t g_slowLoops = 0;      // 10ms を超えた loop() の回数
 static uint8_t  g_lastSeq = 0;
 static bool     g_haveSeq = false;
 static WgInfo   g_lastInfo;
@@ -180,6 +189,20 @@ static void printStatus() {
   Serial.printf("packets=%lu bad=%lu seqDrop=%lu lostEvents=%lu\n",
                 (unsigned long)g_pktCount, (unsigned long)g_badCount,
                 (unsigned long)g_dropCount, (unsigned long)g_lostCount);
+  Serial.printf("UART: 生の行=%lu 組み立て=%lu 解釈不能=%lu 他ノード=%lu "
+                "FIFO溢れ=%lu\n",
+                (unsigned long)im920RawLines(), (unsigned long)g_lineCount,
+                (unsigned long)g_parseFail, (unsigned long)g_otherNode,
+                (unsigned long)g_uartOver);
+  Serial.printf("連続欠落の分布: 途切れ無し=%lu / 1個=%lu / 2個=%lu / 3個=%lu / "
+                "4-5個=%lu / 6-10個=%lu / 11個以上=%lu（最大 %lu 個）\n",
+                (unsigned long)g_gapHist[0], (unsigned long)g_gapHist[1],
+                (unsigned long)g_gapHist[2], (unsigned long)g_gapHist[3],
+                (unsigned long)g_gapHist[4], (unsigned long)g_gapHist[5],
+                (unsigned long)g_gapHist[6], (unsigned long)g_maxGap);
+  Serial.printf("loop: 最大間隔=%lums 10ms超=%lu 回"
+                "（22ms を超えると FIFO が溢れて行ごと落ちる）\n",
+                (unsigned long)g_maxLoopMs, (unsigned long)g_slowLoops);
   Serial.printf("state: buttons=0x%04X hat=%u axes=%u,%u,%u,%u,%u,%u flags=0x%02X\n",
                 g_state.buttons, g_state.hat, g_state.axis[0], g_state.axis[1],
                 g_state.axis[2], g_state.axis[3], g_state.axis[4], g_state.axis[5],
@@ -217,6 +240,10 @@ static void handleLine(char *line) {
   else if (!strcasecmp(line, "hid")) printHid();
   else if (!strcasecmp(line, "clear")) {
     g_pktCount = g_badCount = g_dropCount = g_lostCount = 0;
+    g_lineCount = g_parseFail = g_otherNode = g_uartOver = 0;
+    g_maxLoopMs = g_slowLoops = g_maxGap = 0;
+    for (unsigned i = 0; i < sizeof(g_gapHist)/sizeof(g_gapHist[0]); i++) g_gapHist[i] = 0;
+    im920RawLines() = 0;
     g_hidSent = g_hidSkip = g_wakeReq = g_hbSent = g_hbBusy = g_respOk = g_respNg = 0;
     g_haveSeq = false;
     Serial.println(F("統計をリセットしました"));
@@ -321,10 +348,13 @@ static void pollRadio() {
     int8_t   rssi = 0;
     uint8_t  data[40];
     size_t   len = 0;
+    g_lineCount++;
     if (!strcmp(g_reader.line, "OK")) { g_respOk++; continue; }
     if (!strcmp(g_reader.line, "NG")) { g_respNg++; continue; }
-    if (!im920ParseRx(g_reader.line, node, rssi, data, sizeof(data), len)) continue;
-    if (node != WG_NODE_TX) continue;
+    if (!im920ParseRx(g_reader.line, node, rssi, data, sizeof(data), len)) {
+      g_parseFail++; continue;
+    }
+    if (node != WG_NODE_TX) { g_otherNode++; continue; }
 
     if (len == WG_STATE_LEN) {
       WgState s;
@@ -332,6 +362,11 @@ static void pollRadio() {
       if (g_haveSeq) {
         uint8_t gap = (uint8_t)(s.seq - g_lastSeq);
         if (gap > 1) g_dropCount += (uint32_t)(gap - 1);
+        uint8_t miss = (uint8_t)(gap - 1);          // 連続で落ちた数
+        if (miss > g_maxGap) g_maxGap = miss;
+        int b = miss == 0 ? 0 : miss == 1 ? 1 : miss == 2 ? 2 : miss == 3 ? 3
+              : miss <= 5 ? 4 : miss <= 10 ? 5 : 6;
+        g_gapHist[b]++;
       }
       g_lastSeq = s.seq;
       g_haveSeq = true;
@@ -588,6 +623,14 @@ void setup() {
 
 void loop() {
   rp2040.wdt_reset();
+  {   // loop() が長く止まると UART の FIFO（256B ＝ 115200bps で約 22ms）が溢れる
+    static uint32_t lastLoopMs = 0;
+    uint32_t t = millis(), d = t - lastLoopMs;
+    if (lastLoopMs && d > g_maxLoopMs) g_maxLoopMs = d;
+    if (lastLoopMs && d > 10) g_slowLoops++;
+    lastLoopMs = t;
+    if (IM_SERIAL.overflow()) g_uartOver++;   // 読むとフラグはクリアされる
+  }
 #ifdef TINYUSB_NEED_POLLING_TASK
   TinyUSBDevice.task();
 #endif
