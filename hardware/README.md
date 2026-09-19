@@ -37,6 +37,7 @@ hardware/
 python3 hardware/make_footprints.py     # フットプリント
 python3 hardware/make_board.py          # 基板 + DRC + 確認用 PDF
 python3 hardware/make_checksheet.py     # 確認シート
+python3 hardware/make_gerber.py         # 発注用ガーバー + ドリル
 ```
 
 `make_board.py` は実行のたびに `board/` を作り直し、最後に DRC を回して
@@ -63,6 +64,35 @@ KiCad 6 の Python API（`pcbnew`）を使っている。KiCad 7 以降なら `k
 | `board/gamepad_over_920MHz-bottom.pdf` | 裏面（B.Cu） |
 | `board/gamepad_over_920MHz-layout.pdf` | 両面重ね |
 | `board/placement.pdf` | 部品配置のみ |
+
+## 発注データ
+
+`make_gerber.py` が `board/gerber/` に一式を書き出し、
+`board/gamepad_over_920MHz-gerber.zip` にまとめる。**この ZIP をそのまま業者に投げる。**
+
+| 拡張子 | 内容 |
+|---|---|
+| `.gtl` / `.gbl` | 表面 / 裏面 銅箔 |
+| `.gto` / `.gbo` | 表面 / 裏面 シルク |
+| `.gts` / `.gbs` | 表面 / 裏面 レジスト |
+| `.gtp` / `.gbp` | 表面 / 裏面 メタルマスク（手はんだなので未使用） |
+| `.gm1` | 外形（100 × 62mm） |
+| `-PTH.drl` | スルーホール 50 個（φ0.7 / 0.8 / 0.92 / 1.0 / 2.3） |
+| `-NPTH.drl` | 固定穴 φ3.2 × 4 |
+
+発注時の指定:
+
+| 項目 | 値 |
+|---|---|
+| 層数 | 2 |
+| 基板サイズ | 100 × 62 mm |
+| 板厚 | 1.6mm |
+| 銅箔厚 | 1oz |
+| 表面処理 | HASL（有鉛・無鉛どちらでも可） |
+| 最小線幅 / クリアランス | 0.4mm / 0.2mm（どの業者の標準仕様でも通る） |
+
+**発注前に業者サイトのガーバービューアで必ずプレビューを確認すること。**
+手元にビューアがないため、出力データの目視確認はできていない。
 
 配置は次の条件で決めてある:
 
