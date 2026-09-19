@@ -1,81 +1,9 @@
-** Drc report for  **
-** Created on 2026-09-19 15:04:35 **
+** Drc report for /home/hijikata/irlab_ws/wireless_gamepad/hardware/board/gamepad_over_920MHz.kicad_pcb **
+** Created on 2026-09-19 15:28:20 **
 
 ** Found 0 DRC violations **
 
-** Found 18 unconnected pads **
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(74.0000 mm, 35.5000 mm): Through hole pad 1 [+5V] of J1
-    @(82.0000 mm, 35.5000 mm): Through hole pad 1 [+5V] of C1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(64.6200 mm, 10.3800 mm): Through hole pad 8 [+5V] of U1
-    @(74.0000 mm, 35.5000 mm): Through hole pad 1 [+5V] of J1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(34.7000 mm, 18.9700 mm): Through hole pad 9 [+3V3] of U2
-    @(43.0000 mm, 23.0000 mm): Through hole pad 1 [+3V3] of C3
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(43.0000 mm, 23.0000 mm): Through hole pad 1 [+3V3] of C3
-    @(43.0000 mm, 13.0000 mm): Through hole pad 1 [+3V3] of C2
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(64.6200 mm, 15.4600 mm): Through hole pad 10 [+3V3] of U1
-    @(43.0000 mm, 13.0000 mm): Through hole pad 1 [+3V3] of C2
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(45.0000 mm, 13.0000 mm): Through hole pad 2 [GND] of C2
-    @(43.0000 mm, 18.0000 mm): Through hole pad 2 [GND] of C3
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(74.0000 mm, 43.1200 mm): Through hole pad 4 [GND] of J1
-    @(84.0000 mm, 35.5000 mm): Through hole pad 2 [GND] of C1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(64.6200 mm, 12.9200 mm): Through hole pad 9 [GND] of U1
-    @(45.0000 mm, 13.0000 mm): Through hole pad 2 [GND] of C2
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(84.0000 mm, 35.5000 mm): Through hole pad 2 [GND] of C1
-    @(64.6200 mm, 12.9200 mm): Through hole pad 9 [GND] of U1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(9.3000 mm, 18.9700 mm): Through hole pad 19 [GND] of U2
-    @(43.0000 mm, 18.0000 mm): Through hole pad 2 [GND] of C3
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(49.3800 mm, 10.3800 mm): Through hole pad 1 [USB_DP] of U1
-    @(57.0000 mm, 33.0000 mm): Through hole pad 1 [USB_DP] of R2
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(67.1600 mm, 33.0000 mm): Through hole pad 2 [USB_DP_CON] of R2
-    @(74.0000 mm, 40.5800 mm): Through hole pad 3 [USB_DP_CON] of J1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(49.3800 mm, 12.9200 mm): Through hole pad 2 [USB_DM] of U1
-    @(57.0000 mm, 38.0000 mm): Through hole pad 1 [USB_DM] of R1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(67.1600 mm, 38.0000 mm): Through hole pad 2 [USB_DM_CON] of R1
-    @(74.0000 mm, 38.0400 mm): Through hole pad 2 [USB_DM_CON] of J1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(34.7000 mm, 39.2900 mm): Through hole pad 1 [IM_BUSY] of U2
-    @(49.3800 mm, 15.4600 mm): Through hole pad 3 [IM_BUSY] of U1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(34.7000 mm, 16.4300 mm): Through hole pad 10 [IM_RESET] of U2
-    @(49.3800 mm, 18.0000 mm): Through hole pad 4 [IM_RESET] of U1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(9.3000 mm, 34.2100 mm): Through hole pad 13 [IM_RXD] of U2
-    @(49.3800 mm, 25.6200 mm): Through hole pad 7 [IM_RXD] of U1
-[unconnected_items]: Missing connection between items
-    Local override; Severity: error
-    @(34.7000 mm, 31.6700 mm): Through hole pad 4 [IM_TXD] of U2
-    @(64.6200 mm, 25.6200 mm): Through hole pad 14 [IM_TXD] of U1
+** Found 0 unconnected pads **
 
 ** Found 0 Footprint errors **
 
