@@ -38,6 +38,11 @@ static volatile bool     g_armFail   = false;   // レポート要求が失敗�
 static volatile uint32_t g_reports   = 0;
 static volatile uint32_t g_lastRepMs = 0;
 static bool g_begun = false;
+// レポート要求が通っていても転送が始まらないことがあるので、
+// 動作している PIO-USB 版と同じく、届くまで定期的に要求し直す
+static volatile uint8_t  g_addr = 0, g_inst = 0;
+static volatile bool     g_haveDev = false;
+static uint32_t g_reArm = 0;
 
 void setup() {
   // PIO-USB を使わないので、NeoPixel と PIO を取り合う心配がない
@@ -50,6 +55,11 @@ void setup() {
 void loop() {
   USBHost.task();              // core1 は使わない。ここで回すだけ
   (void)g_lastRepMs;
+  // まだ 1 度もレポートが来ていなければ 100ms ごとに要求し直す
+  if (g_haveDev && g_reports == 0 && millis() - g_reArm > 100) {
+    g_reArm = millis();
+    if (!tuh_hid_receive_report(g_addr, g_inst)) g_armFail = true;
+  }
   if (!g_begun)                     g_led.set(WG_LED_BOOT);          // 白：初期化で停止
   else if (g_armFail)               g_led.set(WG_LED_ERROR);         // 紫：要求が失敗
   else if (!g_anyDev)               g_led.set(WG_LED_DISCONNECTED);  // 赤：機器なし
@@ -72,12 +82,16 @@ void tuh_hid_mount_cb(uint8_t addr, uint8_t inst,
   (void)desc; (void)len;
   g_anyDev  = true;
   g_mounted = true;
+  g_addr = addr; g_inst = inst; g_haveDev = true;
+  // ブートプロトコルのままだとゲームパッドのレポートが出ない機器があるため明示する
+  tuh_hid_set_protocol(addr, inst, HID_PROTOCOL_REPORT);
   if (!tuh_hid_receive_report(addr, inst)) g_armFail = true;   // 最初のレポートを要求
 }
 
 void tuh_hid_umount_cb(uint8_t addr, uint8_t inst) {
   (void)addr; (void)inst;
   g_mounted = false;
+  g_haveDev = false;
 }
 
 void tuh_hid_report_received_cb(uint8_t addr, uint8_t inst,
