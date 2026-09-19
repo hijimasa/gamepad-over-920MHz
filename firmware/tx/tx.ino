@@ -43,10 +43,15 @@ static uint8_t g_usbDp = PIN_USB_HOST_DP_DEFAULT;
 static const char *g_usbDpSrc = "default";
 
 // ---- 送信のタイミング ----
-static const uint32_t TX_MIN_INTERVAL = 30;    // 最短送信間隔 [ms]
-static const uint32_t TX_KEEPALIVE    = 60;    // 変化がなくても送る間隔 [ms]
-// 受信側のフェイルセーフは 300ms。100ms 間隔だと 3 連続欠落で誤発報するため、
-// 余裕を 5 パケット分に広げる（干渉時の瞬断でスティックが中立に落ちるのを防ぐ）
+// 4s モード（ch31〜45）は「送信休止時間 52ms 以上」が電波法上の規定で、
+// 満たさないと 3.9 秒ごとに強制休止が入り TXDA が NG を返す（取説 Rev.1.5 §7-3）。
+// 実測した NG 率（12 バイト・各 80〜150 回、キャリアセンス約 6ms ＋ 送信 6ms）:
+//   55ms=20%  65ms=17.5%  75ms=12.5%  90ms=8%  120ms=4%  150ms=0%
+// NG は一度も連続しなかった（90/120ms で全て単発）ので、欠落は最悪 2 周期分。
+// 90ms なら 180ms で、受信側フェイルセーフ 300ms に余裕がある。
+// ※ 暗号化を有効にすると 1 パケットが 24 バイト増えるので、その場合は要再測定。
+static uint32_t TX_MIN_INTERVAL = 90;    // 最短送信間隔 [ms]（rate コマンドで変更可）
+static uint32_t TX_KEEPALIVE    = 90;    // 変化がなくても送る間隔 [ms]
 static const uint32_t TX_INFO_PERIOD  = 2000;  // Info パケットの間隔 [ms]
 static const uint32_t HB_TIMEOUT_MS   = 5000;  // これだけ受信機からの応答が無ければリンク断
                                               // （ハートビートは 2 秒周期なので余裕を見る）
@@ -101,7 +106,7 @@ static volatile bool g_core1Go = false;
 static bool     g_dump = false;
 static uint32_t g_okCount = 0, g_ngCount = 0, g_shortReports = 0;
 static uint32_t g_ngBusy = 0, g_ngResp = 0, g_ngNo = 0;
-static uint32_t g_txMinInterval = 30;     // rate コマンドで変更（§6 の NG 率測定用）
+static uint32_t g_txMinInterval = TX_MIN_INTERVAL;   // rate コマンドで変更
 static uint32_t g_lastOkMs = 0;
 static uint32_t g_rawSeqShown = 0;
 static uint32_t g_lastHbMs = 0, g_hbCount = 0;
@@ -551,7 +556,7 @@ static void printHelp() {
   Serial.println(F("  bridge  USB CDC <-> IM920sL 透過ブリッジ（'+' を 3 回で抜ける）"));
   Serial.println(F("  dump    HID 生レポートの表示を切り替え"));
   Serial.println(F("  map     解析した HID マップを表示"));
-  Serial.println(F("  rate N  最短送信間隔を N ms にして統計をリセット（NG 率の測定用）"));
+  Serial.println(F("  rate N  送信間隔を N ms にして統計をリセット（既定 90ms。64ms 未満は規定違反）"));
   Serial.println(F("  usb     USB ホストの状態"));
   Serial.println(F("  usbpin  USB-A の D+ ピンを指定（auto|26|27、保存して再起動）"));
   Serial.println(F("  desc    取得した HID レポートディスクリプタを表示"));
@@ -684,8 +689,10 @@ static void handleLine(char *line) {
     if (*arg) {
       long v = strtol(arg, nullptr, 10);
       if (v >= 10 && v <= 1000) {
-        g_txMinInterval = (uint32_t)v;
+        g_txMinInterval = TX_KEEPALIVE = (uint32_t)v;   // 下限とキープアライブを揃える
         g_okCount = g_ngCount = g_ngBusy = g_ngResp = g_ngNo = 0;   // 統計をリセット
+        if (v < 64)
+          Serial.println(F("※52ms の送信休止規定を満たさないので NG が増えます"));
       } else Serial.println(F("rate は 10〜1000 ms"));
     }
     Serial.printf("送信間隔 = %lu ms（統計はリセット済み）\n", (unsigned long)g_txMinInterval);
