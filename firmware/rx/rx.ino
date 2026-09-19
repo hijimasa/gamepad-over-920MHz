@@ -18,7 +18,17 @@
 #include "boot_button.h"
 #include "im920_diag.h"
 
-static const uint32_t FAILSAFE_MS  = 300;   // これだけ受信が途絶えたら中立に戻す
+// フェイルセーフの閾値は送信間隔に追従させる。
+// 送信機はパッド操作中は 30ms、静止中は 60ms キープアライブ（NG の遅延を含む実測で
+// 約 105ms）で送るため、固定 300ms だと静止中に 2 連続欠落（約 315ms）で誤発動し、
+// 76 分で 90 回フェイルセーフに入っていた（2026-09-19 実測）。
+// 受信間隔の 5 倍を閾値にすれば、保護が要る「操作中」は 300ms のまま速く、
+// 静止中だけ緩む。真の通信断では間隔が伸びないので必ず上限内で発動する。
+static const uint32_t FAILSAFE_MIN_MS = 300;   // 操作中（間隔 30ms）はこの値になる
+static const uint32_t FAILSAFE_MAX_MS = 600;   // これ以上は待たない
+static const uint32_t FAILSAFE_MULT   = 5;     // 受信間隔の何倍で途絶とみなすか
+static uint32_t g_avgIntervalMs = 60;          // 受信間隔の移動平均
+static uint32_t g_failsafeMs    = FAILSAFE_MIN_MS;
 static const uint32_t HID_PERIOD_MS = 10;   // 変化がなくても送る HID 周期
 // 半二重なので、受信機がハートビートを送っている間はパッドのパケットを受け取れない。
 // 短い周期にすると前方向のパケット落ちが増えるため、既定は 2 秒にしてある。
@@ -200,6 +210,10 @@ static void printStatus() {
                 (unsigned long)g_gapHist[2], (unsigned long)g_gapHist[3],
                 (unsigned long)g_gapHist[4], (unsigned long)g_gapHist[5],
                 (unsigned long)g_gapHist[6], (unsigned long)g_maxGap);
+  Serial.printf("フェイルセーフ: 閾値=%lums（受信間隔の平均 %lums × %lu、%lu〜%lums に制限）\n",
+                (unsigned long)g_failsafeMs, (unsigned long)g_avgIntervalMs,
+                (unsigned long)FAILSAFE_MULT, (unsigned long)FAILSAFE_MIN_MS,
+                (unsigned long)FAILSAFE_MAX_MS);
   Serial.printf("loop: 最大間隔=%lums 10ms超=%lu 回"
                 "（22ms を超えると FIFO が溢れて行ごと落ちる）\n",
                 (unsigned long)g_maxLoopMs, (unsigned long)g_slowLoops);
@@ -359,8 +373,9 @@ static void pollRadio() {
     if (len == WG_STATE_LEN) {
       WgState s;
       if (!wgStateDecode(data, len, &s)) { g_badCount++; continue; }
+      uint8_t gap = 1;
       if (g_haveSeq) {
-        uint8_t gap = (uint8_t)(s.seq - g_lastSeq);
+        gap = (uint8_t)(s.seq - g_lastSeq);
         if (gap > 1) g_dropCount += (uint32_t)(gap - 1);
         uint8_t miss = (uint8_t)(gap - 1);          // 連続で落ちた数
         if (miss > g_maxGap) g_maxGap = miss;
@@ -368,11 +383,23 @@ static void pollRadio() {
               : miss <= 5 ? 4 : miss <= 10 ? 5 : 6;
         g_gapHist[b]++;
       }
+      // 欠落分を割り戻して「送信機が 1 パケットを出す間隔」を求める。
+      // 受信できた間隔をそのまま使うと、欠落のたびに閾値が伸びてしまう。
+      uint32_t tNow = millis();
+      if (g_haveSeq && gap >= 1 && gap <= 8 && g_lastStateMs) {
+        uint32_t per = (tNow - g_lastStateMs) / gap;
+        if (per >= 10 && per <= 500)
+          g_avgIntervalMs = (g_avgIntervalMs * 7 + per) / 8;   // 移動平均
+      }
+      g_failsafeMs = g_avgIntervalMs * FAILSAFE_MULT;
+      if (g_failsafeMs < FAILSAFE_MIN_MS) g_failsafeMs = FAILSAFE_MIN_MS;
+      if (g_failsafeMs > FAILSAFE_MAX_MS) g_failsafeMs = FAILSAFE_MAX_MS;
+
       g_lastSeq = s.seq;
       g_haveSeq = true;
       g_state = s;
       g_rssi = rssi;
-      g_lastRxMs = g_lastStateMs = millis();
+      g_lastRxMs = g_lastStateMs = tNow;
       g_pktCount++;
       // 送信機が送り終えた直後＝チャネルが空いている。ここで返すと確実に通る
       if (g_hbEnable && g_hbDue) emitHeartbeat();
@@ -618,7 +645,7 @@ void setup() {
   rp2040.wdt_begin(WDT_MS);
   Serial.println(F("wireless gamepad RX ready（help でコマンド一覧）"));
   printProfile();
-  g_lastRxMs = g_lastStateMs = millis() - FAILSAFE_MS;
+  g_lastRxMs = g_lastStateMs = millis() - FAILSAFE_MAX_MS;
 }
 
 void loop() {
@@ -638,7 +665,7 @@ void loop() {
   pollRadio();
 
   uint32_t now = millis();
-  bool lost = (now - g_lastStateMs) > FAILSAFE_MS || !(g_state.flags & WG_FLAG_PAD);
+  bool lost = (now - g_lastStateMs) > g_failsafeMs || !(g_state.flags & WG_FLAG_PAD);
   if (lost && !g_failsafe) {               // 途絶の開始
     g_failsafe = true;
     g_lostAtMs = now;
