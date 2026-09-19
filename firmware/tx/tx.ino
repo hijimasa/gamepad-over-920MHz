@@ -57,6 +57,7 @@ typedef struct {
   uint32_t redCount;        // 赤点滅に落ちた回数（累積）
   uint32_t redPad, redHost, redHb, redRx;   // その原因別の内訳
   uint32_t lastRedMs;       // 直近に赤へ落ちた時刻
+  uint32_t savedCh;         // 自動再起動の直前に使っていたチャンネル
 } WgBlackBox;   // __uninitialized_ram はマクロ引数をセクション名に使うので
                 // 空白を含まない 1 語の型名が必要
 static __uninitialized_ram(WgBlackBox) g_bb;
@@ -168,10 +169,13 @@ static const int      CH_MAX_TRIES = 3;      // 移動を試みる回数の上�
 
 static uint8_t  g_curCh = WG_CH_HOME;
 static bool     g_chScanned = false;
+static bool     g_fastBootRecover = false;   // 異常再起動からの復帰で起動したか
 static int      g_chTries = 0;
 static int8_t   g_chRssi[WG_CH_LAST - WG_CH_HOME + 1];
 static const uint32_t HOST_STALL_MS  = 1000;   // これだけ進まなければ異常とみなす
-static const uint32_t HOST_REBOOT_MS = 10000;  // これだけ続いたら再起動して復帰を試みる
+// core1 は常時回っているので、数秒止まっていれば確実に死んでいる。
+// 10 秒待つと、再起動と再走査を合わせて実測 21 秒の通信断になっていた（2026-09-19）。
+static const uint32_t HOST_REBOOT_MS = 3000;   // これだけ続いたら再起動して復帰を試みる
 static int8_t   g_hbRssiHere = 0;    // 送信機が見たハートビートの RSSI
 static int8_t   g_hbRssiThere = 0;   // 受信機が見ている RSSI（ハートビートの中身）
 static bool     g_rxReceiving = false;  // 受信機が「前方向を受信できている」と言っているか
@@ -1011,6 +1015,7 @@ static void doButtonAction(WgButtonAction a) {
 static void bootButtonWindow() {
   if (g_fastBootFlag == WG_FASTBOOT_MAGIC) {   // 異常再起動からの復帰は待たない
     g_fastBootFlag = 0;
+    g_fastBootRecover = true;
     Serial.println(F("異常再起動からの復帰のため、ボタン受付をとばします"));
     return;
   }
@@ -1072,6 +1077,18 @@ void setup() {
     Serial.println(F("AutoConfig 失敗（配線・BUSY を確認）"));
     g_led.set(WG_LED_ERROR);
   }
+  // 異常再起動からの復帰は、受信機が残っているチャンネルへ直接戻る。
+  // ch31 から始めると受信機が待ち合わせに戻るまで待つことになり、実測で 21 秒かかった。
+  if (g_fastBootRecover && g_bb.savedCh >= WG_CH_HOME && g_bb.savedCh <= WG_CH_LAST &&
+      g_bb.savedCh != WG_CH_HOME) {
+    if (im920SetChannelVolatile((uint8_t)g_bb.savedCh)) {
+      g_curCh = (uint8_t)g_bb.savedCh;
+      g_chScanned = true;             // 再走査はしない（受信機はそこに居る）
+      Serial.printf("異常再起動からの復帰: ch%u に直接戻ります\n", g_curCh);
+    }
+  }
+  g_bb.savedCh = 0;
+
   Serial.println(F("wireless gamepad TX ready（help でコマンド一覧）"));
 
   measureUsbLines();
@@ -1195,6 +1212,7 @@ void loop() {
         g_bb.ok = g_okCount;
         g_bb.ng = g_ngCount;
         g_bb.hbAgeMs = g_hbCount ? (now - g_lastHbMs) : 0xFFFFFFFFUL;
+        g_bb.savedCh = g_curCh;       // 受信機はこの ch に残るので、戻って再会合を省く
         Serial.flush();
         g_fastBootFlag = WG_FASTBOOT_MAGIC;
         delay(50);
