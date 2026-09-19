@@ -60,6 +60,10 @@ typedef struct {
   uint32_t redPad, redHost, redHb, redRx;   // その原因別の内訳
   uint32_t lastRedMs;       // 直近に赤へ落ちた時刻
   uint32_t savedCh;         // 自動再起動の直前に使っていたチャンネル
+  // core1 が固まった瞬間の PIO-USB の状態（根本原因を追うための証拠）
+  uint32_t stallInts, stallEpErr, stallEpStall;
+  uint8_t  stallInit, stallConn, stallFs, stallSusp;
+  uint8_t  stallStage, stallNeedArm, stallDevAddr, stallValid;
 } WgBlackBox;   // __uninitialized_ram はマクロ引数をセクション名に使うので
                 // 空白を含まない 1 語の型名が必要
 static __uninitialized_ram(WgBlackBox) g_bb;
@@ -613,6 +617,13 @@ static void wgBbPrint(Stream &o) {
              (unsigned long)g_bb.redPad, (unsigned long)g_bb.redHost,
              (unsigned long)g_bb.redHb, (unsigned long)g_bb.redRx,
              (unsigned long)g_bb.lastRedMs);
+  if (g_bb.stallValid)
+    o.printf("  停止時の PIO-USB: initialized=%u connected=%u fullspeed=%u suspended=%u "
+             "ints=0x%08lX epErr=0x%08lX epStall=0x%08lX / stage=%u needArm=%u addr=%u\n",
+             g_bb.stallInit, g_bb.stallConn, g_bb.stallFs, g_bb.stallSusp,
+             (unsigned long)g_bb.stallInts, (unsigned long)g_bb.stallEpErr,
+             (unsigned long)g_bb.stallEpStall, g_bb.stallStage,
+             g_bb.stallNeedArm, g_bb.stallDevAddr);
   if (g_bb.rebootReason)
     o.printf("  直近の自動再起動: %s（稼働 %lums, reports=%lu ok=%lu ng=%lu, "
              "ハートビート %lums 前）\n",
@@ -1193,6 +1204,14 @@ void loop() {
     if (!alive && g_hostAlive) {
       g_hostAlive = false;
       g_hostStallCount++;
+      {   // 固まった瞬間のレジスタを残す。core1 は止まっているが core0 からは読める
+        int i2, c2, f2, s2; unsigned long in2, ee2, es2;
+        wgPioState(&i2, &c2, &f2, &s2, &in2, &ee2, &es2);
+        g_bb.stallInts = in2; g_bb.stallEpErr = ee2; g_bb.stallEpStall = es2;
+        g_bb.stallInit = i2; g_bb.stallConn = c2; g_bb.stallFs = f2; g_bb.stallSusp = s2;
+        g_bb.stallStage = g_hostStage; g_bb.stallNeedArm = g_needArm ? 1 : 0;
+        g_bb.stallDevAddr = g_devAddr; g_bb.stallValid = 1;
+      }
       Serial.printf("[%lu] USB ホスト（コア1）が停止。パッドを切断扱いにします\n",
                     (unsigned long)now);
     } else if (alive && !g_hostAlive) {
