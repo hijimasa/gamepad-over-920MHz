@@ -16,7 +16,9 @@ case "$ROLE" in
   # 失敗する機器があるため、既定は 240MHz（WG_FREQ で変更可）
   tx) FQBN="rp2040:rp2040:seeed_xiao_rp2040:usbstack=tinyusb,freq=${WG_FREQ:-240}" ;;
   rx) FQBN="rp2040:rp2040:seeed_xiao_rp2040:usbstack=tinyusb" ;;
-  *)  echo "usage: $0 {tx|rx} [build|upload] [port]" >&2; exit 1 ;;
+  # ネイティブ USB ホストの動作確認用。PIO-USB を使わないので 240MHz も不要
+  hosttest) FQBN="rp2040:rp2040:seeed_xiao_rp2040:usbstack=tinyusb_host" ;;
+  *)  echo "usage: $0 {tx|rx|hosttest} [build|upload] [port]" >&2; exit 1 ;;
 esac
 
 SKETCH="firmware/$ROLE"
